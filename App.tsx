@@ -2,6 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from './src/screens/Home/Home';
+import Player from './src/player/Player';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +15,7 @@ const App = () => {
           name="Home"
           component={Home}
         />
+        <Stack.Screen name="MusicPlayer" component={Player} />
       </Stack.Navigator>
     </NavigationContainer>
   );

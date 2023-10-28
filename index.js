@@ -4,6 +4,8 @@ import App from './App';
 import {name as appName} from './app.json';
 import {PaperProvider} from 'react-native-paper';
 import {AppContextProvider} from './src/context/AppContext';
+import TrackPlayer from 'react-native-track-player';
+import {PlayerService} from './src/player/service';
 
 export default function Main() {
   return (
@@ -16,3 +18,4 @@ export default function Main() {
 }
 
 AppRegistry.registerComponent(appName, () => Main);
+TrackPlayer.registerPlaybackService(() => PlayerService);

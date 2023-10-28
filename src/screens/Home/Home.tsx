@@ -1,12 +1,17 @@
 import React from 'react';
-import {View, Text, StatusBar, ScrollView} from 'react-native';
+import {View, Text, StatusBar, ScrollView, Button} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Bars3CenterLeftIcon} from 'react-native-heroicons/outline';
 import {TouchableRipple} from 'react-native-paper';
 import StaticSearch from './StaticSearch';
 import {SongCardSquare} from './../../Reusable/SongCardSquare';
+import {useNavigation} from '@react-navigation/native';
 
 const Home = () => {
+  const navigation = useNavigation();
+  const handlePress = () => {
+    navigation.navigate('MusicPlayer');
+  };
   return (
     <View className="bg-neutral-900 flex-1">
       <StatusBar backgroundColor={'rgb(23 23 23 )'} />
@@ -47,6 +52,9 @@ const Home = () => {
             <SongCardSquare />
             <SongCardSquare />
           </ScrollView>
+        </View>
+        <View>
+          <Button title="Go to music player" onPress={handlePress} />
         </View>
       </SafeAreaView>
     </View>
