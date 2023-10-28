@@ -9,6 +9,7 @@ import {SongCardSquare} from './../../Reusable/SongCardSquare';
 const Home = () => {
   return (
     <View className="bg-neutral-900 flex-1">
+      <StatusBar backgroundColor={'rgb(23 23 23 )'} />
       <SafeAreaView>
         <StatusBar barStyle={'default'} />
         <View className="flex flex-row items-center  justify-between  px-3 mt-3">
