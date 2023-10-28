@@ -1,7 +1,7 @@
 import React, {createContext, useContext, useEffect} from 'react';
 import RNFS from 'react-native-fs';
 import {getPermission} from '../utils/Permisson';
-
+import {getAllAudios} from '../utils/FileExplorer';
 interface IAppContext {
   audios: any[];
 }
@@ -17,21 +17,13 @@ export const AppContextProvider = ({children}: {children: React.ReactNode}) => {
     isPermitted().then(res => {
       console.log(res);
       if (res === 'granted') {
-        RNFS.readDir(RNFS.ExternalStorageDirectoryPath).then(result => {
-          let audioFiles: any = [];
-
-          result.forEach((item: any) => {
-            if (
-              item.name.endsWith('.mp3') ||
-              item.name.endsWith('.m4a') ||
-              item.name.endsWith('.wav') ||
-              item.name.endsWith('.aac')
-            ) {
-              audioFiles.push(item);
-            }
-          });
-          console.log(audioFiles);
-        });
+        const mainDirectory = RNFS.ExternalStorageDirectoryPath;
+        // RNFS.readFile(
+        //   '/storage/emulated/0/Download/Arcade-Duncan Laurence.m4a',
+        //   'base64',
+        // ).then(result => {
+        //   console.log(result);
+        // });
       }
     });
   });
