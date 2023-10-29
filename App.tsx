@@ -15,7 +15,11 @@ const App = () => {
           name="Home"
           component={Home}
         />
-        <Stack.Screen name="MusicPlayer" component={Player} />
+        <Stack.Screen
+          name="MusicPlayer"
+          options={{headerShown: false}}
+          component={Player}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
