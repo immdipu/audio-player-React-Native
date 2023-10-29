@@ -32,7 +32,7 @@ export default function SongInfo() {
     'repeatOne' | 'repeatAll' | 'shuffle'
   >('repeatOne');
   const playbackState = usePlaybackState();
-  const {duration, position} = useProgress();
+  const {position} = useProgress();
   const [sliderValue, setSliderValue] = useState(position);
 
   React.useEffect(() => {

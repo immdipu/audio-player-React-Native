@@ -2,11 +2,6 @@ import React, {useState, useEffect} from 'react';
 import {View, SafeAreaView, ActivityIndicator, Pressable} from 'react-native';
 import {Track} from 'react-native-track-player/lib/interfaces';
 import {setUpPlayer, AddTrack} from './service';
-import TrackPlayer, {
-  usePlaybackState,
-  State,
-  useProgress,
-} from 'react-native-track-player';
 
 import SongInfo from './SongInfo';
 import ArrowDown from '../icons/ArrowDown';
