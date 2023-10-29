@@ -37,7 +37,6 @@ export default function SongInfo() {
 
   React.useEffect(() => {
     setSliderValue(position);
-    TrackPlayer.;
   }, [position]);
 
   const togglePlayPauseAnimation = () => {
