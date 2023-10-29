@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Svg, {Path} from 'react-native-svg';
 const SvgComponent = () => (
-  <Svg width={80} height={80} fill="none" viewBox="0 0 24 24">
+  <Svg width={60} height={60} fill="none" viewBox="0 0 24 24">
     <Path
       fill="#fff"
       fillRule="evenodd"

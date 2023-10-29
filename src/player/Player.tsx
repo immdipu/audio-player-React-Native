@@ -20,8 +20,6 @@ const tracks: Track[] = [
 
 export default function Player() {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
-  const playbackState = usePlaybackState();
-  const {duration, position} = useProgress();
 
   async function SetuP() {
     let isSetup = await setUpPlayer();
@@ -35,19 +33,6 @@ export default function Player() {
   useEffect(() => {
     SetuP();
   }, []);
-
-  const togglePlayback = async (playback: any) => {
-    const currentTrack = await TrackPlayer.getActiveTrack();
-    console.log(playback);
-    if (currentTrack !== null) {
-      if (playback.state === State.Paused || playback.state === State.Ready) {
-        console.log('play button clicked');
-        await TrackPlayer.play();
-      } else {
-        await TrackPlayer.pause();
-      }
-    }
-  };
 
   if (!isPlayerReady) {
     <SafeAreaView>
@@ -82,7 +67,6 @@ export default function Player() {
           <DowMenu />
         </Pressable>
       </View>
-
       <View className="mt-5">
         <SongInfo />
       </View>

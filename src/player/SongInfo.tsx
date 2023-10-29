@@ -1,5 +1,5 @@
 import {View, Text} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {Slider} from '@miblanchard/react-native-slider';
 import Imagee from '../component/Image';
 import {Previous, Next, Play, Pause, Heart, RepeatOne, Shuffle} from '../icons';
@@ -13,6 +13,12 @@ import Animated, {
   useAnimatedStyle,
   interpolate,
 } from 'react-native-reanimated';
+import TrackPlayer, {
+  usePlaybackState,
+  State,
+  useProgress,
+} from 'react-native-track-player';
+import {ActivityIndicator} from 'react-native-paper';
 
 export default function SongInfo() {
   const [play, setPlay] = React.useState(false);
@@ -20,10 +26,19 @@ export default function SongInfo() {
   const scalePlayPause = useSharedValue(1);
   const opacityPlayPause = useSharedValue(1);
   const scaleHeart = useSharedValue(1);
+
   const opacityHeart = useSharedValue(1);
   const [repeat, setRepeat] = React.useState<
     'repeatOne' | 'repeatAll' | 'shuffle'
   >('repeatOne');
+  const playbackState = usePlaybackState();
+  const {duration, position} = useProgress();
+  const [sliderValue, setSliderValue] = useState(position);
+
+  React.useEffect(() => {
+    setSliderValue(position);
+    TrackPlayer.;
+  }, [position]);
 
   const togglePlayPauseAnimation = () => {
     scalePlayPause.value = 1;
@@ -61,6 +76,24 @@ export default function SongInfo() {
     };
   });
 
+  const togglePlayback = async (playback: any) => {
+    const currentTrack = await TrackPlayer.getActiveTrack();
+    console.log(playback);
+    if (currentTrack !== null) {
+      if (playback.state === State.Paused || playback.state === State.Ready) {
+        await TrackPlayer.play();
+      } else {
+        await TrackPlayer.pause();
+      }
+    }
+  };
+
+  const handleSliderRelease = async (value: number) => {
+    await TrackPlayer.seekTo(value);
+  };
+
+  console.log(playbackState);
+
   return (
     <View>
       <View className=" flex-row justify-center ">
@@ -81,7 +114,7 @@ export default function SongInfo() {
       <View className="mt-5 mx-10">
         <View className="flex-row justify-between px-1">
           <Text className="text-neutral-300 font-medium font-serif text-base">
-            00:00
+            {new Date(position * 1000).toISOString().substring(15, 19)}
           </Text>
           <Text className="text-neutral-300 font-medium font-serif text-base">
             00:00
@@ -89,20 +122,25 @@ export default function SongInfo() {
         </View>
 
         <Slider
-          value={50}
+          value={sliderValue}
           maximumValue={100}
           minimumValue={0}
           thumbTintColor="white"
           maximumTrackTintColor="grey"
           minimumTrackTintColor="white"
-          animateTransitions={true}
-          animationType="timing"
           thumbTouchSize={{height: 45, width: 45}}
           trackStyle={{height: 6}}
           containerStyle={{height: 20}}
+          onSlidingStart={value => {
+            setSliderValue(value[0]); // Update the slider value while dragging
+          }}
+          onSlidingComplete={values => {
+            handleSliderRelease(values[0]);
+            setSliderValue(values[0]); // Update the slider value after releasing
+          }}
         />
       </View>
-      <View className="  items-center  flex-row">
+      <View className="  items-center mt-5  flex-row">
         {/* heart button */}
         <View className="w-20  ">
           <Pressable
@@ -127,7 +165,7 @@ export default function SongInfo() {
           </Pressable>
         </View>
         {/* play pause next previous control */}
-        <View className="flex-row  flex-1  items-center justify-center ">
+        <View className="flex-row   flex-1  items-center justify-center ">
           <Pressable
             android_ripple={{
               color: '#4d4c4a',
@@ -138,17 +176,23 @@ export default function SongInfo() {
             onPress={() => {
               setPlay(!play);
             }}
-            className="flex-row  borde rounded-full  p-3 items-center justify-center mt-5">
+            className="flex-row    rounded-full  p-3 items-center justify-center mt-5">
             <Previous color="#d7dad9" />
           </Pressable>
           <Pressable
             onPress={() => {
-              setPlay(!play);
+              togglePlayback(playbackState);
               togglePlayPauseAnimation();
             }}
-            className="flex-row mx-2   h-20 justify-center mt-5">
+            className="flex-row mx-4   rounded-full   justify-center mt-5">
+            <ActivityIndicator
+              color="white"
+              animating={playbackState.state === 'buffering'}
+              size={68}
+              className="absolute  bottom-0 right-0 left-0 top-0"
+            />
             <Animated.View style={PlayPauseStyle}>
-              {play ? <Play /> : <Pause />}
+              {playbackState.state === 'playing' ? <Play /> : <Pause />}
             </Animated.View>
           </Pressable>
           <Pressable
@@ -158,9 +202,7 @@ export default function SongInfo() {
               foreground: false,
               radius: 30,
             }}
-            onPress={() => {
-              setPlay(!play);
-            }}
+            onPress={() => {}}
             className="flex-row  p-3 justify-center mt-5">
             <Next color="#d7dad9" />
           </Pressable>
