@@ -2,7 +2,7 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import {Slider} from '@miblanchard/react-native-slider';
 import Imagee from '../component/Image';
-import {Previous, Next, Play, Pause, Heart} from '../icons';
+import {Previous, Next, Play, Pause, Heart, RepeatOne, Shuffle} from '../icons';
 import {Pressable} from 'react-native';
 import Animated, {
   Easing,
@@ -16,10 +16,14 @@ import Animated, {
 
 export default function SongInfo() {
   const [play, setPlay] = React.useState(false);
+  const [isLiked, setIsLiked] = React.useState(false);
   const scalePlayPause = useSharedValue(1);
   const opacityPlayPause = useSharedValue(1);
   const scaleHeart = useSharedValue(1);
   const opacityHeart = useSharedValue(1);
+  const [repeat, setRepeat] = React.useState<
+    'repeatOne' | 'repeatAll' | 'shuffle'
+  >('repeatOne');
 
   const togglePlayPauseAnimation = () => {
     scalePlayPause.value = 1;
@@ -35,11 +39,12 @@ export default function SongInfo() {
     scaleHeart.value = 1;
     opacityHeart.value = 1;
 
-    // Play Heart animation
-    scaleHeart.value = withSequence(
-      withSpring(1.1, {damping: 2, stiffness: 80}),
-      withTiming(1, {duration: 300, easing: Easing.inOut(Easing.ease)}),
-    );
+    if (!isLiked) {
+      scaleHeart.value = withSequence(
+        withSpring(1.27, {damping: 2, stiffness: 80}),
+        withTiming(1, {duration: 170, easing: Easing.inOut(Easing.ease)}),
+      );
+    }
   };
 
   const PlayPauseStyle = useAnimatedStyle(() => {
@@ -97,20 +102,32 @@ export default function SongInfo() {
           containerStyle={{height: 20}}
         />
       </View>
-      <View className="border border-red-500 mx-3">
-        <View className="w-32 h-20 border border-blue-700">
+      <View className="  items-center  flex-row">
+        {/* heart button */}
+        <View className="w-20  ">
           <Pressable
+            android_ripple={{
+              color: '#4d4c4a',
+              borderless: true,
+              foreground: false,
+              radius: 30,
+            }}
             onPress={() => {
               toggleHeartAnimation();
+              setIsLiked(!isLiked);
             }}
-            className="flex-row mx-2   h-20 justify-center mt-5">
+            className="flex-row mx-2 items   justify-center mt-5">
             <Animated.View style={HeartStyle}>
-              <Heart color="" />
+              {isLiked ? (
+                <Heart color="#f53030" strokeColor="#f53030" />
+              ) : (
+                <Heart color="" strokeColor="#a7a9a9" />
+              )}
             </Animated.View>
           </Pressable>
         </View>
-
-        <View className="flex-row  border border-white items-center justify-center mt-5  ">
+        {/* play pause next previous control */}
+        <View className="flex-row  flex-1  items-center justify-center ">
           <Pressable
             android_ripple={{
               color: '#4d4c4a',
@@ -146,6 +163,34 @@ export default function SongInfo() {
             }}
             className="flex-row  p-3 justify-center mt-5">
             <Next color="#d7dad9" />
+          </Pressable>
+        </View>
+        {/* Reapeat button */}
+        <View className="w-20   ">
+          <Pressable
+            android_ripple={{
+              color: '#4d4c4a',
+              borderless: true,
+              foreground: false,
+              radius: 30,
+            }}
+            onPress={() => {
+              if (repeat === 'repeatOne') {
+                setRepeat('repeatAll');
+              } else if (repeat === 'repeatAll') {
+                setRepeat('shuffle');
+              } else if (repeat === 'shuffle') {
+                setRepeat('repeatOne');
+              }
+            }}
+            className="flex-row mx-2  justify-center mt-5">
+            {repeat === 'repeatOne' ? (
+              <RepeatOne color="#d7dad9" />
+            ) : repeat === 'repeatAll' ? (
+              <RepeatOne color="#d7dad9" repeatOne={false} />
+            ) : repeat === 'shuffle' ? (
+              <Shuffle color="#d7dad9" />
+            ) : null}
           </Pressable>
         </View>
       </View>

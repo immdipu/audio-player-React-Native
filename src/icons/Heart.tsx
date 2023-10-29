@@ -10,7 +10,7 @@ const SvgComponent: React.FC<HeartProps> = ({
   color = 'none',
   strokeColor = '#fff',
 }) => (
-  <Svg width={40} height={40} fill={color} viewBox="0 0 24 24">
+  <Svg width={32} height={32} fill={color} viewBox="0 0 24 24">
     <Path
       stroke={strokeColor}
       strokeLinecap="round"

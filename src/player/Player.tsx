@@ -9,14 +9,12 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 
 import SongInfo from './SongInfo';
-import {ChevronDownIcon} from 'react-native-heroicons/solid';
-import {IconButton} from 'react-native-paper';
 import ArrowDown from '../icons/ArrowDown';
 import DowMenu from '../icons/DotMenu';
 
 const tracks: Track[] = [
   {
-    url: '/storage/emulated/0/Download/comethru-Jeremy Zucker.m4a', // Load media from the network
+    url: '/storage/emulated/0/Download/comethru-Jeremy Zucker.m4a',
   },
 ];
 
@@ -62,7 +60,6 @@ export default function Player() {
       {/* <Text>
           duration: {new Date(position * 1000).toISOString().substring(15, 19)}
         </Text> */}
-
       <View className="px-4 mt-2 flex-row justify-between">
         <Pressable
           className=" w-10 h-10  flex-row items-center justify-center rounded-full p-2"
