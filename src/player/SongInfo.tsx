@@ -187,11 +187,11 @@ export default function SongInfo({
             trackStyle={{height: 5}}
             containerStyle={{height: 20}}
             onSlidingStart={value => {
-              setSliderValue(value[0]); // Update the slider value while dragging
+              setSliderValue(value[0]);
             }}
             onSlidingComplete={values => {
               handleSliderRelease(values[0]);
-              setSliderValue(values[0]); // Update the slider value after releasing
+              setSliderValue(values[0]);
             }}
           />
           <View className="absolute -z-10 w-full top-6">

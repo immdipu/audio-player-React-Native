@@ -1,9 +1,6 @@
 import React, {Dispatch, SetStateAction} from 'react';
-import {SafeAreaView, Text, Pressable, View} from 'react-native';
+import {SafeAreaView, Pressable, View} from 'react-native';
 import {Gesture} from 'react-native-gesture-handler';
-import ImageComponent from '../component/Image';
-import {Previous, Next, Play, Pause} from '../icons';
-import {ActivityIndicator} from 'react-native-paper';
 
 interface miniminzedProps {
   setFullScreen: Dispatch<SetStateAction<boolean>>;
