@@ -1,9 +1,8 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Home from './src/screens/Home/Home';
-import Album from './src/screens/Album/Album';
-import Artist from './src/screens/Artist/Artist';
+import {Home, Album, Artist} from './src/screens';
+
 import Player from './src/player/Player';
 
 const Stack = createNativeStackNavigator();
