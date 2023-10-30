@@ -20,14 +20,11 @@ const MinimizePlayer: React.FC<miniminzedProps> = ({setFullScreen}) => {
 
   return (
     <SafeAreaView className="">
-      {/* <GestureDetector gesture={panGesture}>
-        <Text className="text-white text-4xl">This is miniminzed player</Text>
-      </GestureDetector> */}
       <Pressable
         onPress={() => {
           setFullScreen(true);
         }}>
-        <View className="border border-white">
+        <View>
           <SongInfo isFullScreen={false} />
         </View>
       </Pressable>

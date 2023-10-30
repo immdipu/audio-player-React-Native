@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {View, Text} from 'react-native';
 import React, {useState} from 'react';
 import {Slider} from '@miblanchard/react-native-slider';
@@ -37,7 +38,7 @@ export default function SongInfo({
     'repeatOne' | 'repeatAll' | 'shuffle'
   >('repeatOne');
   const playbackState = usePlaybackState();
-  const {position} = useProgress();
+  const {position, buffered} = useProgress();
   const [sliderValue, setSliderValue] = useState(position);
 
   React.useEffect(() => {
@@ -97,15 +98,39 @@ export default function SongInfo({
   };
 
   return (
-    <View className={clsx(isFullScreen ? 'flex-col' : 'flex-row w-full')}>
+    <View
+      className={clsx(isFullScreen ? 'flex-col' : 'flex-row w-full mt-2 px-3')}>
+      {!isFullScreen && (
+        <View className="absolute -top-[10px] left-0 right-0 z-10">
+          <Slider
+            value={sliderValue}
+            maximumValue={100}
+            minimumValue={0}
+            thumbTintColor="white"
+            maximumTrackTintColor="grey"
+            minimumTrackTintColor="#d9d5d4"
+            thumbTouchSize={{height: 10, width: 10}}
+            trackStyle={{height: 1}}
+            containerStyle={{height: 2}}
+            thumbStyle={{height: 5, width: 5}}
+            onSlidingStart={value => {
+              setSliderValue(value[0]);
+            }}
+            onSlidingComplete={values => {
+              handleSliderRelease(values[0]);
+              setSliderValue(values[0]);
+            }}
+          />
+        </View>
+      )}
       <View
         className={clsx(
-          ' flex-row justify-center border border-white',
+          ' flex-row justify-center ',
           isFullScreen ? 'justify-center' : 'justify-start pl-3',
         )}>
         <Imagee
-          heightMultiplier={isFullScreen ? 0.8 : 0.16}
-          widthMultiplier={isFullScreen ? 0.83 : 0.17}
+          heightMultiplier={isFullScreen ? 0.8 : 0.13}
+          widthMultiplier={isFullScreen ? 0.83 : 0.14}
           url="https://c.saavncdn.com/599/Panandalian-Good-For-A-Time-Tagalog-2022-20220715144646-500x500.jpg"
           borderRadius={isFullScreen ? 12 : 8}
         />
@@ -115,18 +140,22 @@ export default function SongInfo({
         className={
           isFullScreen
             ? 'py-2 mt-6'
-            : 'mt-0 py-0 border flex-1 px-3 justify-center mb-3'
+            : 'mt-0 py-0  flex-1 pl-3 pr-2 justify-center mb-3'
         }>
         <Text
+          numberOfLines={1}
+          ellipsizeMode="tail"
           className={clsx(
             'text-white  tracking-tighter   ',
             isFullScreen
-              ? 'text-3xl font-semibold text-center'
-              : 'text-base font-medium whitespace-nowrap  ',
+              ? 'text-3xl font-semibold text-center '
+              : 'text-base font-medium    w-full whitespace-nowrap block  ',
           )}>
-          Good For A Time daks dja sod jdso ojdo
+          Good For A Time daks dja sod jdso ojdo knlf
         </Text>
         <Text
+          numberOfLines={1}
+          ellipsizeMode="tail"
           className={clsx(
             '  tracking-wide ',
             isFullScreen
@@ -152,10 +181,10 @@ export default function SongInfo({
             maximumValue={100}
             minimumValue={0}
             thumbTintColor="white"
-            maximumTrackTintColor="grey"
+            maximumTrackTintColor="#585656"
             minimumTrackTintColor="white"
             thumbTouchSize={{height: 45, width: 45}}
-            trackStyle={{height: 6}}
+            trackStyle={{height: 5}}
             containerStyle={{height: 20}}
             onSlidingStart={value => {
               setSliderValue(value[0]); // Update the slider value while dragging
@@ -177,7 +206,7 @@ export default function SongInfo({
           className={clsx(
             isFullScreen
               ? 'w-20'
-              : 'w-10 items-center h-full justify-center  border-blue-500 border  ',
+              : 'w-10 items-center h-full justify-center    ',
           )}>
           <Pressable
             android_ripple={{
@@ -192,7 +221,7 @@ export default function SongInfo({
             }}
             className={clsx(
               'flex-row mx-2 items justify-center',
-              isFullScreen ? 'mx-2 mt-5' : 'mt-0',
+              isFullScreen ? 'mx-2 mt-5' : 'mt-0 scale-90',
             )}>
             <Animated.View style={HeartStyle}>
               {isLiked ? (
@@ -206,7 +235,7 @@ export default function SongInfo({
         {/* play pause next previous control */}
         <View
           className={clsx(
-            'flex-row  items-center  border border-white  ',
+            'flex-row  items-center    ',
             isFullScreen ? 'flex-1  justify-center' : 'flex ',
           )}>
           {isFullScreen && (
@@ -231,7 +260,7 @@ export default function SongInfo({
             }}
             className={clsx(
               'flex-row rounded-full  items-center  justify-center ',
-              isFullScreen ? 'mx-4 mt-5 ' : 'mx-0  mr-3',
+              isFullScreen ? 'mx-4 mt-5 ' : 'mx-0  mr-2 scale-75',
             )}>
             <ActivityIndicator
               color="white"
@@ -253,7 +282,7 @@ export default function SongInfo({
             onPress={() => {}}
             className={clsx(
               'flex-row justify-center ',
-              isFullScreen ? 'mt-5  p-3 ' : 'mt-0 ',
+              isFullScreen ? 'mt-5  p-3 ' : 'mt-0 mr-3 scale-75 ',
             )}>
             <Next color="#d7dad9" />
           </Pressable>

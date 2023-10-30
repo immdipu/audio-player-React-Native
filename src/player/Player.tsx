@@ -37,7 +37,7 @@ const Player = () => {
   }
 
   return (
-    <SafeAreaView className="flex-1 absolute w-full h-20 bg-neutral-800 bottom-0 border border-blue-700">
+    <SafeAreaView className="flex-1 absolute w-full h-20 bg-neutral-900 bottom-0  ">
       <Modal
         isVisible={isFullScreen}
         className="w-full m-0"
