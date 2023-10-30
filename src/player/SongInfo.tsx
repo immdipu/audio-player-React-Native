@@ -181,7 +181,7 @@ export default function SongInfo({
             maximumValue={100}
             minimumValue={0}
             thumbTintColor="white"
-            maximumTrackTintColor="#585656"
+            maximumTrackTintColor={'transparent'}
             minimumTrackTintColor="white"
             thumbTouchSize={{height: 45, width: 45}}
             trackStyle={{height: 5}}
@@ -194,6 +194,20 @@ export default function SongInfo({
               setSliderValue(values[0]); // Update the slider value after releasing
             }}
           />
+          <View className="absolute -z-10 w-full top-6">
+            <Slider
+              value={buffered}
+              maximumValue={100}
+              minimumValue={0}
+              maximumTrackTintColor="#424242"
+              minimumTrackTintColor="#737373"
+              thumbTouchSize={{height: 0, width: 0}}
+              thumbStyle={{height: 0, width: 0}}
+              trackStyle={{height: 5}}
+              containerStyle={{height: 20}}
+              disabled={true}
+            />
+          </View>
         </View>
       )}
       <View

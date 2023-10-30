@@ -4,11 +4,8 @@ import {
   Image,
   useWindowDimensions,
   ActivityIndicator,
-  ImageBackground,
-  Text,
   Pressable,
 } from 'react-native';
-import {TouchableRipple} from 'react-native-paper';
 
 interface ImageProps {
   url: string;

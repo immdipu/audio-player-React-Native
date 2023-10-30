@@ -40,7 +40,8 @@ const Player = () => {
     <SafeAreaView className="flex-1 absolute w-full h-20 bg-neutral-900 bottom-0  ">
       <Modal
         isVisible={isFullScreen}
-        className="w-full m-0"
+        className="w-full h-0 m-0"
+        hardwareAccelerated={true}
         onBackButtonPress={() => setIsFullScreen(false)}>
         <FullScreenPlayer setFullScreen={setIsFullScreen} />
       </Modal>
