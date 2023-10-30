@@ -10,7 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 const Home = () => {
   const navigation = useNavigation();
   const handlePress = () => {
-    navigation.navigate('MusicPlayer');
+    navigation.navigate('Artist');
   };
   return (
     <View className="bg-neutral-900 flex-1">
@@ -54,7 +54,7 @@ const Home = () => {
           </ScrollView>
         </View>
         <View>
-          <Button title="Go to music player" onPress={handlePress} />
+          <Button title="Go to Artist" onPress={handlePress} />
         </View>
       </SafeAreaView>
     </View>

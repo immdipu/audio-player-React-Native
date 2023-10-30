@@ -4,6 +4,7 @@ import {Slider} from '@miblanchard/react-native-slider';
 import Imagee from '../component/Image';
 import {Previous, Next, Play, Pause, Heart, RepeatOne, Shuffle} from '../icons';
 import {Pressable} from 'react-native';
+import clsx from 'clsx';
 import Animated, {
   Easing,
   useSharedValue,
@@ -20,7 +21,11 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 import {ActivityIndicator} from 'react-native-paper';
 
-export default function SongInfo() {
+export default function SongInfo({
+  isFullScreen = true,
+}: {
+  isFullScreen?: boolean;
+}) {
   const [play, setPlay] = React.useState(false);
   const [isLiked, setIsLiked] = React.useState(false);
   const scalePlayPause = useSharedValue(1);
@@ -91,57 +96,82 @@ export default function SongInfo() {
     await TrackPlayer.seekTo(value);
   };
 
-  console.log(playbackState);
-
   return (
-    <View>
-      <View className=" flex-row justify-center ">
+    <View className={clsx(isFullScreen ? 'flex-col' : 'flex-row')}>
+      <View
+        className={clsx(
+          ' flex-row justify-center border border-white',
+          isFullScreen ? 'justify-center' : 'justify-start pl-3',
+        )}>
         <Imagee
-          heightMultiplier={0.8}
-          widthMultiplier={0.83}
+          heightMultiplier={isFullScreen ? 0.8 : 0.16}
+          widthMultiplier={isFullScreen ? 0.83 : 0.17}
           url="https://c.saavncdn.com/599/Panandalian-Good-For-A-Time-Tagalog-2022-20220715144646-500x500.jpg"
+          borderRadius={isFullScreen ? 12 : 8}
         />
       </View>
-      <View className=" py-2 mt-6">
-        <Text className="text-white text-3xl tracking-tighter text-center font-semibold ">
+
+      <View className={isFullScreen ? 'py-2 mt-6' : 'mt-0 py-0 border w-full '}>
+        <Text
+          className={clsx(
+            'text-white  tracking-tighter text-center  ',
+            isFullScreen ? 'text-3xl font-semibold' : 'text-base font-medium  ',
+          )}>
           Good For A Time
         </Text>
-        <Text className="text-neutral-200 text-center tracking-wide font-normal text-base">
+        <Text
+          className={clsx(
+            '  tracking-wide ',
+            isFullScreen
+              ? 'font-normal text-neutral-200 text-base text-center'
+              : 'text-xs text-start text-neutral-400',
+          )}>
           Benjamin Kheng
         </Text>
       </View>
-      <View className="mt-5 mx-10">
-        <View className="flex-row justify-between px-1">
-          <Text className="text-neutral-300 font-medium font-serif text-base">
-            {new Date(position * 1000).toISOString().substring(15, 19)}
-          </Text>
-          <Text className="text-neutral-300 font-medium font-serif text-base">
-            00:00
-          </Text>
-        </View>
+      {isFullScreen && (
+        <View className="mt-5 mx-10">
+          <View className="flex-row justify-between px-1">
+            <Text className="text-neutral-300 font-medium font-serif text-base">
+              {new Date(position * 1000).toISOString().substring(15, 19)}
+            </Text>
+            <Text className="text-neutral-300 font-medium font-serif text-base">
+              00:00
+            </Text>
+          </View>
 
-        <Slider
-          value={sliderValue}
-          maximumValue={100}
-          minimumValue={0}
-          thumbTintColor="white"
-          maximumTrackTintColor="grey"
-          minimumTrackTintColor="white"
-          thumbTouchSize={{height: 45, width: 45}}
-          trackStyle={{height: 6}}
-          containerStyle={{height: 20}}
-          onSlidingStart={value => {
-            setSliderValue(value[0]); // Update the slider value while dragging
-          }}
-          onSlidingComplete={values => {
-            handleSliderRelease(values[0]);
-            setSliderValue(values[0]); // Update the slider value after releasing
-          }}
-        />
-      </View>
-      <View className="  items-center mt-5  flex-row">
+          <Slider
+            value={sliderValue}
+            maximumValue={100}
+            minimumValue={0}
+            thumbTintColor="white"
+            maximumTrackTintColor="grey"
+            minimumTrackTintColor="white"
+            thumbTouchSize={{height: 45, width: 45}}
+            trackStyle={{height: 6}}
+            containerStyle={{height: 20}}
+            onSlidingStart={value => {
+              setSliderValue(value[0]); // Update the slider value while dragging
+            }}
+            onSlidingComplete={values => {
+              handleSliderRelease(values[0]);
+              setSliderValue(values[0]); // Update the slider value after releasing
+            }}
+          />
+        </View>
+      )}
+      <View
+        className={clsx(
+          ' flex-row',
+          isFullScreen ? 'items-center my-5' : 'mt-0 items-start',
+        )}>
         {/* heart button */}
-        <View className="w-20  ">
+        <View
+          className={clsx(
+            isFullScreen
+              ? 'w-20'
+              : 'w-10 items-center h-full justify-center  border-blue-500 border  ',
+          )}>
           <Pressable
             android_ripple={{
               color: '#4d4c4a',
@@ -153,37 +183,49 @@ export default function SongInfo() {
               toggleHeartAnimation();
               setIsLiked(!isLiked);
             }}
-            className="flex-row mx-2 items   justify-center mt-5">
+            className={clsx(
+              'flex-row mx-2 items justify-center',
+              isFullScreen ? 'mx-2 mt-5' : 'mt-0',
+            )}>
             <Animated.View style={HeartStyle}>
               {isLiked ? (
                 <Heart color="#f53030" strokeColor="#f53030" />
               ) : (
-                <Heart color="" strokeColor="#a7a9a9" />
+                <Heart color="transparent" strokeColor="#a7a9a9" />
               )}
             </Animated.View>
           </Pressable>
         </View>
         {/* play pause next previous control */}
-        <View className="flex-row   flex-1  items-center justify-center ">
-          <Pressable
-            android_ripple={{
-              color: '#4d4c4a',
-              borderless: true,
-              foreground: false,
-              radius: 30,
-            }}
-            onPress={() => {
-              setPlay(!play);
-            }}
-            className="flex-row    rounded-full  p-3 items-center justify-center mt-5">
-            <Previous color="#d7dad9" />
-          </Pressable>
+        <View
+          className={clsx(
+            'flex-row  items-center  border border-white  ',
+            isFullScreen ? 'flex-1  justify-center' : 'flex ',
+          )}>
+          {isFullScreen && (
+            <Pressable
+              android_ripple={{
+                color: '#4d4c4a',
+                borderless: true,
+                foreground: false,
+                radius: 30,
+              }}
+              onPress={() => {
+                setPlay(!play);
+              }}
+              className="flex-row    rounded-full  p-3 items-center justify-center mt-5">
+              <Previous color="#d7dad9" />
+            </Pressable>
+          )}
           <Pressable
             onPress={() => {
               togglePlayback(playbackState);
               togglePlayPauseAnimation();
             }}
-            className="flex-row mx-4   rounded-full   justify-center mt-5">
+            className={clsx(
+              'flex-row rounded-full  items-center  justify-center ',
+              isFullScreen ? 'mx-4 mt-5 ' : 'mx-0  mr-3',
+            )}>
             <ActivityIndicator
               color="white"
               animating={playbackState.state === 'buffering'}
@@ -202,38 +244,43 @@ export default function SongInfo() {
               radius: 30,
             }}
             onPress={() => {}}
-            className="flex-row  p-3 justify-center mt-5">
+            className={clsx(
+              'flex-row justify-center ',
+              isFullScreen ? 'mt-5  p-3 ' : 'mt-0 ',
+            )}>
             <Next color="#d7dad9" />
           </Pressable>
         </View>
         {/* Reapeat button */}
-        <View className="w-20   ">
-          <Pressable
-            android_ripple={{
-              color: '#4d4c4a',
-              borderless: true,
-              foreground: false,
-              radius: 30,
-            }}
-            onPress={() => {
-              if (repeat === 'repeatOne') {
-                setRepeat('repeatAll');
-              } else if (repeat === 'repeatAll') {
-                setRepeat('shuffle');
-              } else if (repeat === 'shuffle') {
-                setRepeat('repeatOne');
-              }
-            }}
-            className="flex-row mx-2  justify-center mt-5">
-            {repeat === 'repeatOne' ? (
-              <RepeatOne color="#d7dad9" />
-            ) : repeat === 'repeatAll' ? (
-              <RepeatOne color="#d7dad9" repeatOne={false} />
-            ) : repeat === 'shuffle' ? (
-              <Shuffle color="#d7dad9" />
-            ) : null}
-          </Pressable>
-        </View>
+        {isFullScreen && (
+          <View className="w-20   ">
+            <Pressable
+              android_ripple={{
+                color: '#4d4c4a',
+                borderless: true,
+                foreground: false,
+                radius: 30,
+              }}
+              onPress={() => {
+                if (repeat === 'repeatOne') {
+                  setRepeat('repeatAll');
+                } else if (repeat === 'repeatAll') {
+                  setRepeat('shuffle');
+                } else if (repeat === 'shuffle') {
+                  setRepeat('repeatOne');
+                }
+              }}
+              className="flex-row mx-2  justify-center mt-5">
+              {repeat === 'repeatOne' ? (
+                <RepeatOne color="#d7dad9" />
+              ) : repeat === 'repeatAll' ? (
+                <RepeatOne color="#d7dad9" repeatOne={false} />
+              ) : repeat === 'shuffle' ? (
+                <Shuffle color="#d7dad9" />
+              ) : null}
+            </Pressable>
+          </View>
+        )}
       </View>
     </View>
   );

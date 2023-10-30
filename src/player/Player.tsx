@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {View, SafeAreaView, ActivityIndicator, Pressable} from 'react-native';
+import {SafeAreaView, ActivityIndicator} from 'react-native';
 import {Track} from 'react-native-track-player/lib/interfaces';
 import {setUpPlayer, AddTrack} from './service';
+import Modal from 'react-native-modal';
+import MinimizePlayer from './MinimizePlayer';
 
-import SongInfo from './SongInfo';
-import ArrowDown from '../icons/ArrowDown';
-import DowMenu from '../icons/DotMenu';
+import FullScreenPlayer from './FullScreenPlayer';
 
 const tracks: Track[] = [
   {
@@ -13,8 +13,9 @@ const tracks: Track[] = [
   },
 ];
 
-export default function Player() {
+const Player = () => {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
   async function SetuP() {
     let isSetup = await setUpPlayer();
@@ -36,35 +37,16 @@ export default function Player() {
   }
 
   return (
-    <SafeAreaView className="bg-neutral-900 flex-1">
-      {/* <Text>
-          duration: {new Date(position * 1000).toISOString().substring(15, 19)}
-        </Text> */}
-      <View className="px-4 mt-2 flex-row justify-between">
-        <Pressable
-          className=" w-10 h-10  flex-row items-center justify-center rounded-full p-2"
-          android_ripple={{
-            color: '#4d4c4a',
-            borderless: false,
-            foreground: false,
-            radius: 20,
-          }}>
-          <ArrowDown />
-        </Pressable>
-        <Pressable
-          className=" w-10 h-10  flex-row items-center justify-center rounded-full p-2"
-          android_ripple={{
-            color: '#4d4c4a',
-            borderless: false,
-            foreground: false,
-            radius: 20,
-          }}>
-          <DowMenu />
-        </Pressable>
-      </View>
-      <View className="mt-5">
-        <SongInfo />
-      </View>
+    <SafeAreaView className="flex-1 absolute w-full h-20 bg-neutral-800 bottom-0 border border-blue-700">
+      <Modal
+        isVisible={isFullScreen}
+        className="w-full m-0"
+        onBackButtonPress={() => setIsFullScreen(false)}>
+        <FullScreenPlayer setFullScreen={setIsFullScreen} />
+      </Modal>
+      <MinimizePlayer setFullScreen={setIsFullScreen} />
     </SafeAreaView>
   );
-}
+};
+
+export default Player;
