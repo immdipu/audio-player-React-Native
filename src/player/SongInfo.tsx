@@ -97,7 +97,7 @@ export default function SongInfo({
   };
 
   return (
-    <View className={clsx(isFullScreen ? 'flex-col' : 'flex-row')}>
+    <View className={clsx(isFullScreen ? 'flex-col' : 'flex-row w-full')}>
       <View
         className={clsx(
           ' flex-row justify-center border border-white',
@@ -111,13 +111,20 @@ export default function SongInfo({
         />
       </View>
 
-      <View className={isFullScreen ? 'py-2 mt-6' : 'mt-0 py-0 border w-full '}>
+      <View
+        className={
+          isFullScreen
+            ? 'py-2 mt-6'
+            : 'mt-0 py-0 border flex-1 px-3 justify-center mb-3'
+        }>
         <Text
           className={clsx(
-            'text-white  tracking-tighter text-center  ',
-            isFullScreen ? 'text-3xl font-semibold' : 'text-base font-medium  ',
+            'text-white  tracking-tighter   ',
+            isFullScreen
+              ? 'text-3xl font-semibold text-center'
+              : 'text-base font-medium whitespace-nowrap  ',
           )}>
-          Good For A Time
+          Good For A Time daks dja sod jdso ojdo
         </Text>
         <Text
           className={clsx(

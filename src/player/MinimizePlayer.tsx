@@ -27,7 +27,7 @@ const MinimizePlayer: React.FC<miniminzedProps> = ({setFullScreen}) => {
         onPress={() => {
           setFullScreen(true);
         }}>
-        <View className="border border-white flex-row">
+        <View className="border border-white">
           <SongInfo isFullScreen={false} />
         </View>
       </Pressable>
