@@ -2,15 +2,12 @@ import {
   View,
   Text,
   useWindowDimensions,
-  useAnimatedValue,
   PanResponder,
-  ScrollView,
-  Image,
   Pressable,
-  LayoutChangeEvent,
+  BackHandler,
   Animated,
 } from 'react-native';
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef} from 'react';
 import clsx from 'clsx';
 import ArrowDown from '../icons/ArrowDown';
 import DowMenu from '../icons/DotMenu';
@@ -38,7 +35,7 @@ const NewPlayer = () => {
           }
           return false;
         },
-        onPanResponderGrant: (event, gestureState) => {
+        onPanResponderGrant: () => {
           animation.extractOffset();
         },
         onPanResponderMove: (event, gestureState) => {
@@ -60,7 +57,7 @@ const NewPlayer = () => {
             setIsExpanded(false);
             Animated.timing(animation.y, {
               toValue: height - 80,
-              duration: 120,
+              duration: 400,
               useNativeDriver: false,
             }).start();
           } else if (gestureState.dy < 0 && gestureState.moveY >= height / 2) {
@@ -84,6 +81,32 @@ const NewPlayer = () => {
     [isExpanded],
   );
 
+  useEffect(() => {
+    const backHandlerSubscription = () => {
+      console.log('backhandler');
+      if (isExpanded) {
+        setIsExpanded(false);
+        Animated.timing(animation.y, {
+          toValue: 0,
+          duration: 400,
+          useNativeDriver: false,
+        }).start();
+
+        return true;
+      }
+      return false;
+    };
+
+    const backaction = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backHandlerSubscription,
+    );
+
+    return () => {
+      return backaction.remove();
+    };
+  }, []);
+
   let animatedImageHeight = animation.y.interpolate({
     inputRange: [0, height - 90],
     outputRange: [height * 0.39, 58],
@@ -101,11 +124,7 @@ const NewPlayer = () => {
     outputRange: [25, 16],
     extrapolate: 'clamp',
   });
-  let AnimatedFontBold = animation.y.interpolate({
-    inputRange: [0, height - 90],
-    outputRange: [600, 500],
-    extrapolate: 'clamp',
-  });
+
   let TextContainerMaring = animation.y.interpolate({
     inputRange: [0, height - 90],
     outputRange: [27, 15],
@@ -116,14 +135,10 @@ const NewPlayer = () => {
     outputRange: [27, 6],
     extrapolate: 'clamp',
   });
-  let AnimateSlider = animation.y.interpolate({
-    inputRange: [0, height - 90],
-    outputRange: [5, -76],
-    extrapolate: 'clamp',
-  });
+
   let AnimateControlY = animation.y.interpolate({
     inputRange: [0, height - 90],
-    outputRange: [5, -70],
+    outputRange: [5, -82],
     extrapolate: 'clamp',
   });
   let AnimateControlWidth = animation.y.interpolate({
@@ -133,7 +148,7 @@ const NewPlayer = () => {
   });
   let AnimateControlRight = animation.y.interpolate({
     inputRange: [0, height - 90],
-    outputRange: [0, -255],
+    outputRange: [0, -270],
     extrapolate: 'clamp',
   });
 
@@ -154,7 +169,14 @@ const NewPlayer = () => {
           )}>
           <Pressable
             className=" w-10 h-10  flex-row items-center justify-center rounded-full p-2"
-            onPress={() => {}}
+            onPress={() => {
+              setIsExpanded(false);
+              Animated.timing(animation.y, {
+                toValue: 0,
+                duration: 400,
+                useNativeDriver: false,
+              }).start();
+            }}
             android_ripple={{
               color: '#4d4c4a',
               borderless: false,
@@ -198,7 +220,7 @@ const NewPlayer = () => {
           style={{
             marginHorizontal: TextContainerMaring,
           }}
-          className={'py-2  '}>
+          className={'  mb-4 '}>
           <Animated.Text
             style={{
               fontSize: TextFont,
@@ -209,7 +231,7 @@ const NewPlayer = () => {
               'text-white  font-medium tracking-tighter',
               isExpanded ? 'mr-0 font-semibold mt-10' : 'mr-36',
             )}>
-            Good For A Time daks dja sod jdso ojdo knlf
+            Good For A Time
           </Animated.Text>
           <Text
             numberOfLines={1}
@@ -220,7 +242,7 @@ const NewPlayer = () => {
                 ? 'font-normal text-neutral-200 text-base text-center'
                 : 'text-xs text-start text-neutral-400',
             )}>
-            Benjamin Kheng dlgkas dofj
+            Benjamin Kheng
           </Text>
         </Animated.View>
       </Animated.View>

@@ -15,7 +15,7 @@ import {Previous, Next, Play, Pause, Heart, RepeatOne, Shuffle} from '../icons';
 import {ActivityIndicator} from 'react-native-paper';
 import {useAppContext} from '../context/AppContext';
 const PlayerControls = () => {
-  const {isExpanded, setIsExpanded} = useAppContext();
+  const {isExpanded} = useAppContext();
   const [play, setPlay] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const scalePlayPause = useSharedValue(1);
