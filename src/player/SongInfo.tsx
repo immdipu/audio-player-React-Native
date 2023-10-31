@@ -20,7 +20,6 @@ import TrackPlayer, {
   State,
   useProgress,
 } from 'react-native-track-player';
-import {ActivityIndicator} from 'react-native-paper';
 
 export default function SongInfo({
   isFullScreen = true,
@@ -41,87 +40,11 @@ export default function SongInfo({
   const {position, buffered} = useProgress();
   const [sliderValue, setSliderValue] = useState(position);
 
-  React.useEffect(() => {
-    setSliderValue(position);
-  }, [position]);
-
-  const togglePlayPauseAnimation = () => {
-    scalePlayPause.value = 1;
-    opacityPlayPause.value = 1;
-    scalePlayPause.value = withSequence(
-      withSpring(1.1, {damping: 2, stiffness: 80}),
-      withTiming(1, {duration: 300, easing: Easing.inOut(Easing.ease)}),
-    );
-  };
-
-  const toggleHeartAnimation = () => {
-    // Reset Heart animation values
-    scaleHeart.value = 1;
-    opacityHeart.value = 1;
-
-    if (!isLiked) {
-      scaleHeart.value = withSequence(
-        withSpring(1.27, {damping: 2, stiffness: 80}),
-        withTiming(1, {duration: 170, easing: Easing.inOut(Easing.ease)}),
-      );
-    }
-  };
-
-  const PlayPauseStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{scale: scalePlayPause.value}],
-      opacity: interpolate(opacityPlayPause.value, [0, 1], [0, 1]),
-    };
-  });
-
-  const HeartStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{scale: scaleHeart.value}],
-      opacity: interpolate(opacityHeart.value, [0, 1], [0, 1]),
-    };
-  });
-
-  const togglePlayback = async (playback: any) => {
-    const currentTrack = await TrackPlayer.getActiveTrack();
-    console.log(playback);
-    if (currentTrack !== null) {
-      if (playback.state === State.Paused || playback.state === State.Ready) {
-        await TrackPlayer.play();
-      } else {
-        await TrackPlayer.pause();
-      }
-    }
-  };
-
-  const handleSliderRelease = async (value: number) => {
-    await TrackPlayer.seekTo(value);
-  };
-
   return (
     <View
       className={clsx(isFullScreen ? 'flex-col' : 'flex-row w-full mt-2 px-3')}>
       {!isFullScreen && (
-        <View className="absolute -top-[10px] left-0 right-0 z-10">
-          <Slider
-            value={sliderValue}
-            maximumValue={100}
-            minimumValue={0}
-            thumbTintColor="white"
-            maximumTrackTintColor="grey"
-            minimumTrackTintColor="#d9d5d4"
-            thumbTouchSize={{height: 10, width: 10}}
-            trackStyle={{height: 1}}
-            containerStyle={{height: 2}}
-            thumbStyle={{height: 5, width: 5}}
-            onSlidingStart={value => {
-              setSliderValue(value[0]);
-            }}
-            onSlidingComplete={values => {
-              handleSliderRelease(values[0]);
-              setSliderValue(values[0]);
-            }}
-          />
-        </View>
+       
       )}
       <View
         className={clsx(
@@ -137,80 +60,6 @@ export default function SongInfo({
         />
       </View>
 
-      <View
-        className={
-          isFullScreen
-            ? 'py-2 mt-6'
-            : 'mt-0 py-0  flex-1 pl-3 pr-2 justify-center mb-3'
-        }>
-        <Text
-          numberOfLines={1}
-          ellipsizeMode="tail"
-          className={clsx(
-            'text-white  tracking-tighter   ',
-            isFullScreen
-              ? 'text-3xl font-semibold text-center '
-              : 'text-base font-medium    w-full whitespace-nowrap block  ',
-          )}>
-          Good For A Time daks dja sod jdso ojdo knlf
-        </Text>
-        <Text
-          numberOfLines={1}
-          ellipsizeMode="tail"
-          className={clsx(
-            '  tracking-wide ',
-            isFullScreen
-              ? 'font-normal text-neutral-200 text-base text-center'
-              : 'text-xs text-start text-neutral-400',
-          )}>
-          Benjamin Kheng
-        </Text>
-      </View>
-      {isFullScreen && (
-        <View className="mt-5 mx-10">
-          <View className="flex-row justify-between px-1">
-            <Text className="text-neutral-300 font-medium font-serif text-base">
-              {new Date(position * 1000).toISOString().substring(15, 19)}
-            </Text>
-            <Text className="text-neutral-300 font-medium font-serif text-base">
-              00:00
-            </Text>
-          </View>
-
-          <Slider
-            value={sliderValue}
-            maximumValue={100}
-            minimumValue={0}
-            thumbTintColor="white"
-            maximumTrackTintColor={'transparent'}
-            minimumTrackTintColor="white"
-            thumbTouchSize={{height: 45, width: 45}}
-            trackStyle={{height: 5}}
-            containerStyle={{height: 20}}
-            onSlidingStart={value => {
-              setSliderValue(value[0]);
-            }}
-            onSlidingComplete={values => {
-              handleSliderRelease(values[0]);
-              setSliderValue(values[0]);
-            }}
-          />
-          <View className="absolute -z-10 w-full top-6">
-            <Slider
-              value={buffered}
-              maximumValue={100}
-              minimumValue={0}
-              maximumTrackTintColor="#424242"
-              minimumTrackTintColor="#737373"
-              thumbTouchSize={{height: 0, width: 0}}
-              thumbStyle={{height: 0, width: 0}}
-              trackStyle={{height: 5}}
-              containerStyle={{height: 20}}
-              disabled={true}
-            />
-          </View>
-        </View>
-      )}
       <View
         className={clsx(
           ' flex-row',

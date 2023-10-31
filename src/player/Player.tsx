@@ -38,19 +38,7 @@ const Player = () => {
     </SafeAreaView>;
   }
 
-  return (
-    <SafeAreaView className="flex-1  border border-white absolute w-full top-0  bg-neutral-900 bottom-0  ">
-      {/* <Modal
-        isVisible={isFullScreen}
-        className="w-full h-0 m-0"
-        hardwareAccelerated={true}
-        onBackButtonPress={() => setIsFullScreen(false)}>
-        <FullScreenPlayer setFullScreen={setIsFullScreen} />
-      </Modal>
-      <MinimizePlayer setFullScreen={setIsFullScreen} /> */}
-      <NewPlayer />
-    </SafeAreaView>
-  );
+  return <NewPlayer />;
 };
 
 export default Player;
