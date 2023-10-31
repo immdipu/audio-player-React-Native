@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React from 'react';
 import {
   View,
@@ -13,6 +14,7 @@ interface ImageProps {
   widthMultiplier: number;
   borderRadius?: number;
   heightMultiplier: number;
+  isFullScreen?: boolean;
 }
 
 const ImageComponent: React.FC<ImageProps> = ({
@@ -21,8 +23,11 @@ const ImageComponent: React.FC<ImageProps> = ({
   heightMultiplier,
   widthMultiplier,
   borderRadius = 15,
+  isFullScreen = true,
 }) => {
-  const {width} = useWindowDimensions();
+  const {width, height} = useWindowDimensions();
+  // console.log('width', width);
+  // console.log('heigth', height);
 
   // Use state to keep track of image loading and error states
   const [isLoading, setLoading] = React.useState(true);
@@ -40,11 +45,18 @@ const ImageComponent: React.FC<ImageProps> = ({
     setError(true);
   };
 
-  const imageWidth = width * widthMultiplier;
-  const imageHeight = width * heightMultiplier;
+  let imageWidth = width * widthMultiplier;
+  let imageHeight = height * heightMultiplier;
+
+  if (!isFullScreen) {
+    imageWidth = 50;
+    imageHeight = 48;
+  }
 
   return (
-    <View style={{width: imageWidth, height: imageHeight}}>
+    <View
+      style={{width: imageWidth, height: imageHeight}}
+      className={clsx(!isFullScreen && 'mt-[3px]')}>
       <Pressable
         android_ripple={{
           color: '#00000096',

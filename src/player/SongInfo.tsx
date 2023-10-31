@@ -129,10 +129,11 @@ export default function SongInfo({
           isFullScreen ? 'justify-center' : 'justify-start pl-3',
         )}>
         <Imagee
-          heightMultiplier={isFullScreen ? 0.8 : 0.13}
-          widthMultiplier={isFullScreen ? 0.83 : 0.14}
+          heightMultiplier={0.35}
+          widthMultiplier={0.86}
           url="https://c.saavncdn.com/599/Panandalian-Good-For-A-Time-Tagalog-2022-20220715144646-500x500.jpg"
           borderRadius={isFullScreen ? 12 : 8}
+          isFullScreen={isFullScreen}
         />
       </View>
 
