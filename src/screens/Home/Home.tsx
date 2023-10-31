@@ -53,9 +53,9 @@ const Home = () => {
             <SongCardSquare />
           </ScrollView>
         </View>
-        <View>
+        {/* <View>
           <Button title="Go to Artist" onPress={handlePress} />
-        </View>
+        </View> */}
       </SafeAreaView>
     </View>
   );
