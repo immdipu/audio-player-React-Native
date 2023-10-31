@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import TrackPlayer, {useProgress} from 'react-native-track-player';
 import {Slider} from '@miblanchard/react-native-slider';
 import {useAppContext} from '../context/AppContext';
+import clsx from 'clsx';
 
 const SiderComponent = () => {
   const {position, buffered} = useProgress();
@@ -18,7 +19,7 @@ const SiderComponent = () => {
   };
 
   return (
-    <View className="mt-5 mx-10">
+    <View className={clsx('mt-5 mx-10', isExpanded ? 'mx-10' : 'mx-0 mt-0')}>
       {!isExpanded && (
         <View className="absolute -top-[10px] left-0 right-0 z-10">
           <Slider

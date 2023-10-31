@@ -78,10 +78,7 @@ const PlayerControls = () => {
 
   return (
     <View
-      className={clsx(
-        ' flex-row border border-red-900',
-        isExpanded ? 'items-center my-5' : ' ',
-      )}>
+      className={clsx(' flex-row ', isExpanded ? 'items-center my-5' : ' ')}>
       {/* heart button */}
       <View
         className={clsx(
@@ -117,7 +114,7 @@ const PlayerControls = () => {
       <View
         className={clsx(
           'flex-row  items-center    ',
-          isExpanded ? 'flex-1  justify-center' : '',
+          isExpanded ? 'flex-1  justify-center' : ' scale-75',
         )}>
         {isExpanded && (
           <Pressable

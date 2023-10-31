@@ -95,11 +95,7 @@ const NewPlayer = () => {
     outputRange: [width * 0.86, 58],
     extrapolate: 'clamp',
   });
-  let ImagetranslateX = animation.y.interpolate({
-    inputRange: [0, height - 90],
-    outputRange: [0, -10],
-    extrapolate: 'clamp',
-  });
+
   let TextFont = animation.y.interpolate({
     inputRange: [0, height - 90],
     outputRange: [25, 16],
@@ -112,7 +108,7 @@ const NewPlayer = () => {
   });
   let TextContainerMaring = animation.y.interpolate({
     inputRange: [0, height - 90],
-    outputRange: [27, 5],
+    outputRange: [27, 15],
     extrapolate: 'clamp',
   });
   let AnimatedBorderRadius = animation.y.interpolate({
@@ -122,12 +118,12 @@ const NewPlayer = () => {
   });
   let AnimateSlider = animation.y.interpolate({
     inputRange: [0, height - 90],
-    outputRange: [5, -70],
+    outputRange: [5, -76],
     extrapolate: 'clamp',
   });
   let AnimateControlY = animation.y.interpolate({
     inputRange: [0, height - 90],
-    outputRange: [5, -100],
+    outputRange: [5, -70],
     extrapolate: 'clamp',
   });
   let AnimateControlWidth = animation.y.interpolate({
@@ -137,26 +133,19 @@ const NewPlayer = () => {
   });
   let AnimateControlRight = animation.y.interpolate({
     inputRange: [0, height - 90],
-    outputRange: [0, -240],
+    outputRange: [0, -255],
     extrapolate: 'clamp',
   });
-  let AnimateControlX = animation.y.interpolate({
-    inputRange: [0, height - 90],
-    outputRange: [5, 0],
-    extrapolate: 'clamp',
-  });
-
-  console.log('rendering');
 
   return (
     <Animated.View
       style={{transform: animation.getTranslateTransform()}}
-      className="flex-1 absolute bottom-0   top-0 right-0 left-0 bg-blue-500">
+      className="flex-1 absolute bottom-0  bg-neutral-800 top-0 right-0 left-0 ">
       <Animated.View
         {...panResponder.panHandlers}
         className={clsx(
           'ease-linear duration-100 items-center ',
-          // isExpanded ? 'flex-col items-center' : 'flex-row ',
+          isExpanded ? 'flex-col items-center' : 'flex-row pl-3 pr-2 pt-2 ',
         )}>
         <View
           className={clsx(
@@ -188,11 +177,13 @@ const NewPlayer = () => {
         <Animated.View
           // eslint-disable-next-line react-native/no-inline-styles
 
-          className=" "
+          className={clsx(
+            ' ',
+            isExpanded ? 'flex-col' : 'flex-row justify-start ',
+          )}
           style={{
             height: animatedImageHeight,
             width: animatedImageWidth,
-            transform: [{translateX: ImagetranslateX}],
           }}>
           <Animated.Image
             className="w-full h-full "
@@ -207,14 +198,17 @@ const NewPlayer = () => {
           style={{
             marginHorizontal: TextContainerMaring,
           }}
-          className={'py-2 border'}>
+          className={'py-2  '}>
           <Animated.Text
             style={{
               fontSize: TextFont,
             }}
             numberOfLines={1}
             ellipsizeMode="tail"
-            className="text-white font-medium tracking-tighter">
+            className={clsx(
+              'text-white  font-medium tracking-tighter',
+              isExpanded ? 'mr-0 font-semibold mt-10' : 'mr-36',
+            )}>
             Good For A Time daks dja sod jdso ojdo knlf
           </Animated.Text>
           <Text
@@ -232,8 +226,10 @@ const NewPlayer = () => {
       </Animated.View>
 
       <Animated.View
-        style={{transform: [{translateY: AnimateSlider}]}}
-        className="w-full">
+        // style={{transform: [{translateY: AnimateSlider}]}}
+        className={clsx(
+          isExpanded ? 'w-full' : 'right-0 left-0 w-full top-2 absolute ',
+        )}>
         <SliderComponent />
       </Animated.View>
       <Animated.View
@@ -244,7 +240,7 @@ const NewPlayer = () => {
             right: AnimateControlRight,
           },
         ]}
-        className=" border  ">
+        className="   ">
         <PlayerControls />
       </Animated.View>
     </Animated.View>
