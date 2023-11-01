@@ -1,16 +1,5 @@
-interface imageProps {
-  quality: string;
-  link: string;
-}
-
-interface PrimaryArtistProps {
-  id: string;
-  name: string;
-  url: string;
-  image: imageProps[];
-  type: string;
-  role: string;
-}
+import {imageProps} from './Reusable';
+import {PrimaryArtistProps} from './Reusable';
 
 export interface AlbumTypes {
   id: string;
