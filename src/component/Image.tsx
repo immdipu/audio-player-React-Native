@@ -7,9 +7,10 @@ import {
   ActivityIndicator,
   Pressable,
 } from 'react-native';
+import {Disk} from '../icons';
 
 interface ImageProps {
-  url: string;
+  url: string | null;
   defaultImage?: string;
   widthMultiplier: number;
   borderRadius?: number;
@@ -63,18 +64,7 @@ const ImageComponent: React.FC<ImageProps> = ({
           borderless: false,
           foreground: true,
         }}>
-        {isLoading && (
-          // Display a loading indicator (e.g., a spinner) while the image is loading
-          <ActivityIndicator size="large" />
-        )}
-        {isError ? (
-          // Display the default image when there is an error loading the image
-          <Image
-            style={{width: imageWidth, height: imageHeight}}
-            source={{uri: defaultImage}}
-          />
-        ) : (
-          // Display the image when it's loaded successfully
+        {url && !isError && !isLoading ? (
           <Image
             source={{uri: url}}
             onLoad={handleLoad}
@@ -82,6 +72,12 @@ const ImageComponent: React.FC<ImageProps> = ({
             borderRadius={borderRadius}
             className="w-full h-full"
           />
+        ) : (
+          <View
+            style={{borderRadius: borderRadius}}
+            className="items-center h-full justify-center bg-neutral-800 ">
+            <Disk />
+          </View>
         )}
       </Pressable>
     </View>

@@ -5,5 +5,6 @@ import Previous from './Previous';
 import Heart from './Heart';
 import RepeatOne from './Repeat';
 import Shuffle from './Shuffle';
+import Disk from './Disk';
 
-export {Pause, Play, Next, Previous, Heart, RepeatOne, Shuffle};
+export {Pause, Play, Next, Previous, Heart, RepeatOne, Shuffle, Disk};

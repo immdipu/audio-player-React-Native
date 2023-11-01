@@ -1,3 +1,4 @@
+import Instance from '../axios/Instance';
 import axios from '../axios/Instance';
 import {AlbumTypes} from '../types/album';
 import {playlistTypes} from '../types/playlist';
@@ -21,12 +22,12 @@ export interface HomedataTypes {
 }
 
 export const SongApi = {
-  GetHomeData: async () => {
+  GetHomeData: async (): Promise<HomedataProps> => {
     try {
-      const response = await axios.get('/home');
-      return response.data;
+      const response = await Instance.get('/modules?language=hindi,english');
+      return response.data.data;
     } catch (error) {
-      return error;
+      throw error;
     }
   },
 };

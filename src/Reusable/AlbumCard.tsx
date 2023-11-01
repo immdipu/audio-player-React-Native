@@ -1,12 +1,20 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import ImageComponent from '../component/Image';
+import {ImageSelector} from '../utils/constants';
+import {AlbumTypes} from '../types/album';
 
-export const AlbumSquare = () => {
+export const AlbumSquare: React.FC<AlbumTypes> = ({
+  artists,
+  image,
+  name,
+  id,
+  language,
+}) => {
   return (
     <View className="flex-col mx-2 w-36 ">
       <ImageComponent
-        url="https://c.saavncdn.com/editorial/charts_RomanticTop40-English_158417_20220315153203.jpg"
+        url={image ? ImageSelector(image) : null}
         heightMultiplier={0.15}
         widthMultiplier={0.35}
         borderRadius={7}

@@ -7,8 +7,9 @@ import StaticSearch from './StaticSearch';
 import {SongCardSquare} from './../../Reusable/SongCardSquare';
 import {useNavigation} from '@react-navigation/native';
 import {useQuery} from '@tanstack/react-query';
-import {BASE_URL} from '../../utils/constants';
+
 import {AlbumSquare} from '../../Reusable/AlbumCard';
+import {SongApi} from '../../Apis/SongApi';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -18,13 +19,7 @@ const Home = () => {
 
   const {data, error, isLoading} = useQuery({
     queryKey: ['HomeData'],
-    queryFn: async () => {
-      const response = await fetch(
-        `${BASE_URL}/modules?language=hindi,english`,
-      );
-      const datas = await response.json();
-      return datas.data;
-    },
+    queryFn: () => SongApi.GetHomeData(),
   });
 
   if (isLoading) {
@@ -34,8 +29,6 @@ const Home = () => {
   if (error) {
     return <Text className="mt-9 text-black">Error: {error.message}</Text>;
   }
-
-  console.log(data);
 
   return (
     <View className="bg-neutral-900 flex-1">
@@ -90,6 +83,9 @@ const Home = () => {
             contentContainerStyle={{paddingHorizontal: 13}}
             showsHorizontalScrollIndicator={false}
             className="  mt-3">
+            {data?.albums?.map(item => {
+              return <AlbumSquare key={item.id} {...item} />;
+            })}
             <AlbumSquare />
           </ScrollView>
         </View>

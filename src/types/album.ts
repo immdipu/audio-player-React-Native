@@ -11,5 +11,5 @@ export interface AlbumTypes {
   primaryArtists: PrimaryArtistProps[];
   featuredArtists: PrimaryArtistProps[];
   artists: PrimaryArtistProps[];
-  image: imageProps[];
+  image?: imageProps[];
 }
