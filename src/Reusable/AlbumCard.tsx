@@ -4,13 +4,7 @@ import ImageComponent from '../component/Image';
 import {ImageSelector} from '../utils/constants';
 import {AlbumTypes} from '../types/album';
 
-export const AlbumSquare: React.FC<AlbumTypes> = ({
-  artists,
-  image,
-  name,
-  id,
-  language,
-}) => {
+export const AlbumSquare: React.FC<AlbumTypes> = ({image, name}) => {
   return (
     <View className="flex-col mx-2 w-36 ">
       <ImageComponent
@@ -23,7 +17,7 @@ export const AlbumSquare: React.FC<AlbumTypes> = ({
         // eslint-disable-next-line react-native/no-inline-styles
         style={{lineHeight: 17}}
         className="text-neutral-300 mt-2 leading-tight px-px text-center text-sm">
-        Romantic Top 40 - English
+        {name}
       </Text>
     </View>
   );

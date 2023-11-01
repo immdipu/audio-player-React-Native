@@ -86,7 +86,6 @@ const Home = () => {
             {data?.albums?.map(item => {
               return <AlbumSquare key={item.id} {...item} />;
             })}
-            <AlbumSquare />
           </ScrollView>
         </View>
 
