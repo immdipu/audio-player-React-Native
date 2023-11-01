@@ -31,18 +31,13 @@ const ImageComponent: React.FC<ImageProps> = ({
   // console.log('heigth', height);
 
   // Use state to keep track of image loading and error states
-  const [isLoading, setLoading] = React.useState(true);
+
   const [isError, setError] = React.useState(false);
 
   // Function to handle image loading success
-  const handleLoad = () => {
-    setLoading(false);
-    setError(false);
-  };
 
   // Function to handle image loading error
   const handleError = () => {
-    setLoading(false);
     setError(true);
   };
 
@@ -52,6 +47,18 @@ const ImageComponent: React.FC<ImageProps> = ({
   if (!isFullScreen) {
     imageWidth = 50;
     imageHeight = 48;
+  }
+
+  if (isError) {
+    return (
+      <View style={{width: imageWidth, height: imageHeight}}>
+        <View
+          style={{borderRadius: borderRadius}}
+          className="items-center h-full justify-center bg-neutral-800 ">
+          <Disk />
+        </View>
+      </View>
+    );
   }
 
   return (
@@ -64,10 +71,9 @@ const ImageComponent: React.FC<ImageProps> = ({
           borderless: false,
           foreground: true,
         }}>
-        {url && !isError && !isLoading ? (
+        {url && !isError ? (
           <Image
             source={{uri: url}}
-            onLoad={handleLoad}
             onError={handleError}
             borderRadius={borderRadius}
             className="w-full h-full"
