@@ -7,16 +7,25 @@ import {AppContextProvider} from './src/context/AppContext';
 import TrackPlayer from 'react-native-track-player';
 import {PlayerService} from './src/player/service';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {Provider} from 'react-redux';
+import {store} from './src/redux/store';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 export default function Main() {
   return (
-    <PaperProvider>
-      <AppContextProvider>
-        <GestureHandlerRootView style={{flex: 1}}>
-          <App />
-        </GestureHandlerRootView>
-      </AppContextProvider>
-    </PaperProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <PaperProvider>
+          <AppContextProvider>
+            <GestureHandlerRootView style={{flex: 1}}>
+              <App />
+            </GestureHandlerRootView>
+          </AppContextProvider>
+        </PaperProvider>
+      </QueryClientProvider>
+    </Provider>
   );
 }
 
