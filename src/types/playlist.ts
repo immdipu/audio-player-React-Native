@@ -1,6 +1,6 @@
 import {imageProps} from './Reusable';
 
-export interface playlistProps {
+export interface playlistTypes {
   id: string;
   userId: string;
   title: string;

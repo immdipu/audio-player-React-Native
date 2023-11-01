@@ -6,7 +6,7 @@ interface albumProps {
   url: string;
 }
 
-export interface songProps {
+export interface songTypes {
   id: string;
   name: string;
   album: albumProps;
