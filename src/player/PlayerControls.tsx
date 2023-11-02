@@ -124,8 +124,8 @@ const PlayerControls = () => {
               foreground: false,
               radius: 30,
             }}
-            onPress={() => {
-              setPlay(!play);
+            onPress={async () => {
+              await TrackPlayer.skipToPrevious();
             }}
             className="flex-row    rounded-full  p-3 items-center justify-center mt-5">
             <Previous color="#d7dad9" />
@@ -156,7 +156,9 @@ const PlayerControls = () => {
             foreground: false,
             radius: 30,
           }}
-          onPress={() => {}}
+          onPress={async () => {
+            await TrackPlayer.skipToNext();
+          }}
           className={clsx(
             'flex-row justify-center ',
             isFullScreen ? 'mt-5  p-3 ' : 'mt-0 mr-3 scale-75 ',

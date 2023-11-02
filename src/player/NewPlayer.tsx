@@ -6,6 +6,7 @@ import {
   Pressable,
   BackHandler,
   Animated,
+  Image,
 } from 'react-native';
 import React, {useEffect, useMemo, useRef} from 'react';
 import clsx from 'clsx';
@@ -14,6 +15,7 @@ import DowMenu from '../icons/DotMenu';
 import SliderComponent from './Slider';
 import PlayerControls from './PlayerControls';
 import {useAppContext} from '../context/AppContext';
+import SongImage from './SongImage';
 
 const NewPlayer = () => {
   const {width, height} = useWindowDimensions();
@@ -207,13 +209,7 @@ const NewPlayer = () => {
             height: animatedImageHeight,
             width: animatedImageWidth,
           }}>
-          <Animated.Image
-            className="w-full h-full "
-            style={{borderRadius: AnimatedBorderRadius}}
-            source={{
-              uri: 'https://c.saavncdn.com/599/Panandalian-Good-For-A-Time-Tagalog-2022-20220715144646-500x500.jpg',
-            }}
-          />
+          <SongImage />
         </Animated.View>
 
         <Animated.View

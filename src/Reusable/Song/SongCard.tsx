@@ -19,8 +19,8 @@ const SongCard: React.FC<SongCardProps> = ({
   return (
     <Animatable.View
       animation={'fadeInRight'}
-      duration={500}
-      delay={200 * Index}
+      duration={300}
+      delay={100 * Index}
       style={{width: width - 13}}
       className="overflow-hidden mx-auto rounded-lg">
       <Pressable
@@ -42,16 +42,15 @@ const SongCard: React.FC<SongCardProps> = ({
               baseStyle={{height: 30, margin: 0, padding: 0}}
               source={{
                 html: `<p style="font-size:16px; font-weight:500; color:#ffffff;border:2px margin:0; height:30px">${
-                  name.length > 30 ? name.substring(0, 30) : name
-                }...</p>`,
+                  name.length > 30 ? name.substring(0, 30) + '...' : name
+                }</p>`,
               }}
             />
           </View>
           <Text className="-translate-y-1">
             {primaryArtists.length > 30
-              ? primaryArtists.substring(0, 30)
+              ? primaryArtists.substring(0, 30) + '...'
               : primaryArtists}
-            ...
           </Text>
         </View>
       </Pressable>

@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 interface initialStateProps {
-  fullName: string | null;
+  title: string | null;
   username: string | null;
   isUserAuthenticated: boolean;
   token: string | null;
@@ -22,7 +22,7 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    LoggedOut: state => {
+    AddCurrentTrack: state => {
       state.fullName = null;
       state.id = null;
       state.profilePic = null;

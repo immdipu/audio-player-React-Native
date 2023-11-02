@@ -31,4 +31,8 @@ export async function PlayerService() {
   TrackPlayer.addEventListener(Event.RemotePrevious, () => {
     TrackPlayer.skipToPrevious();
   });
+  TrackPlayer.addEventListener(Event.PlaybackActiveTrackChanged, data => {
+    console.log('PlaybackActiveTrackChanged', data);
+    return data;
+  });
 }
