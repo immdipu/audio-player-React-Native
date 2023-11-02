@@ -30,4 +30,12 @@ export const SongApi = {
       throw error;
     }
   },
+  getAlbumDetails: async (id: string): Promise<AlbumTypes> => {
+    try {
+      const response = await Instance.get(`albums?id=${id}`);
+      return response.data.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

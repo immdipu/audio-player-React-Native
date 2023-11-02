@@ -1,9 +1,9 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {Text, View} from 'react-native';
 import ImageComponent from '../component/Image';
 import {ImageSelector} from '../utils/constants';
 import {AlbumTypes} from '../types/album';
-import * as Animatable from 'react-native-animatable';
+import {useNavigation} from '@react-navigation/native';
 
 interface AlbumSquareProps extends AlbumTypes {
   Index: number;
@@ -16,18 +16,25 @@ export const AlbumSquare: React.FC<AlbumSquareProps> = ({
   Index,
   isPlaylist = false,
   title,
+  id,
 }) => {
+  const navigation = useNavigation();
+
+  const handleNavigation = () => {
+    console.log('album button pressed');
+    if (!isPlaylist) {
+      navigation.navigate('Album', {id: id});
+    }
+  };
+
   return (
-    <Animatable.View
-      delay={Index * 200}
-      duration={1000}
-      animation="fadeInRight"
-      className="flex-col mx-2 w-36 ">
+    <View className="flex-col mx-2 w-36 ">
       <ImageComponent
         url={image ? ImageSelector(image) : null}
         heightMultiplier={0.15}
         widthMultiplier={0.35}
         borderRadius={7}
+        onPress={handleNavigation}
       />
       <Text
         // eslint-disable-next-line react-native/no-inline-styles
@@ -35,6 +42,6 @@ export const AlbumSquare: React.FC<AlbumSquareProps> = ({
         className="text-neutral-300 mt-2 leading-tight px-px text-center text-sm">
         {isPlaylist ? title : name}
       </Text>
-    </Animatable.View>
+    </View>
   );
 };

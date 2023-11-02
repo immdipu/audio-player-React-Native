@@ -20,11 +20,11 @@ export default function Main() {
       <QueryClientProvider client={queryClient}>
         <PaperProvider>
           <AppContextProvider>
-            <GestureHandlerRootView style={{flex: 1}}>
-              <ToastProvider>
-                <App />
-              </ToastProvider>
-            </GestureHandlerRootView>
+            {/* <GestureHandlerRootView style={{flex: 1}}> */}
+            <ToastProvider>
+              <App />
+            </ToastProvider>
+            {/* </GestureHandlerRootView> */}
           </AppContextProvider>
         </PaperProvider>
       </QueryClientProvider>

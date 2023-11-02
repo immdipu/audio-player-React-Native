@@ -1,13 +1,8 @@
 import clsx from 'clsx';
 import React from 'react';
-import {
-  View,
-  Image,
-  useWindowDimensions,
-  ActivityIndicator,
-  Pressable,
-} from 'react-native';
+import {View, Image, useWindowDimensions, Pressable} from 'react-native';
 import {Disk} from '../icons';
+import Animated from 'react-native-reanimated';
 
 interface ImageProps {
   url: string | null;
@@ -16,6 +11,7 @@ interface ImageProps {
   borderRadius?: number;
   heightMultiplier: number;
   isFullScreen?: boolean;
+  onPress?: () => void;
 }
 
 const ImageComponent: React.FC<ImageProps> = ({
@@ -25,6 +21,8 @@ const ImageComponent: React.FC<ImageProps> = ({
   widthMultiplier,
   borderRadius = 15,
   isFullScreen = true,
+
+  onPress,
 }) => {
   const {width, height} = useWindowDimensions();
   // console.log('width', width);
@@ -58,13 +56,14 @@ const ImageComponent: React.FC<ImageProps> = ({
       style={{width: imageWidth, height: imageHeight}}
       className={clsx(!isFullScreen && 'mt-[3px]')}>
       <Pressable
+        onPress={onPress}
         android_ripple={{
           color: '#00000096',
           borderless: false,
           foreground: true,
         }}>
         {url && !isError ? (
-          <Image
+          <Animated.Image
             source={{uri: url}}
             onError={handleError}
             // defaultSource={require('../assets/disk.png')}

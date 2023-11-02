@@ -6,6 +6,11 @@ interface albumProps {
   url: string;
 }
 
+interface downloadUrlProps {
+  quality: string;
+  url: string;
+}
+
 export interface songTypes {
   id: string;
   name: string;
@@ -15,10 +20,11 @@ export interface songTypes {
   releaseDate: string;
   duration: string;
   lable: string;
-  primaryArtists: PrimaryArtistProps[];
+  primaryArtists: string;
   featuredArtists: PrimaryArtistProps[];
   playCount: string;
   language: string;
   url: string;
   image: imageProps[];
+  downloadUrl: downloadUrlProps[];
 }
