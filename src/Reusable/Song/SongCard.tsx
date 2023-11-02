@@ -8,14 +8,22 @@ import HTML from 'react-native-render-html';
 
 interface SongCardProps extends songTypes {
   Index: number;
+  handlePlay: (SongId: string) => void;
 }
 const SongCard: React.FC<SongCardProps> = ({
+  id,
   name,
   Index,
   image,
   primaryArtists,
+  handlePlay,
 }) => {
   const {width} = useWindowDimensions();
+
+  const handlePress = () => {
+    handlePlay(id);
+  };
+
   return (
     <Animatable.View
       animation={'fadeInRight'}
@@ -25,6 +33,7 @@ const SongCard: React.FC<SongCardProps> = ({
       className="overflow-hidden mx-auto rounded-lg">
       <Pressable
         className="flex flex-row py-3 px-2  rounded-lg  "
+        onPress={handlePress}
         android_ripple={{
           color: '#61605c',
           borderless: false,

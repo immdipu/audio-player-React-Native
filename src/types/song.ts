@@ -6,9 +6,9 @@ interface albumProps {
   url: string;
 }
 
-interface downloadUrlProps {
+export interface downloadUrlProps {
   quality: string;
-  url: string;
+  link: string;
 }
 
 export interface songTypes {
