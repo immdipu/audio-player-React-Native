@@ -57,7 +57,6 @@ const Album = ({route}: {route: any}) => {
         <View className="">
           <ImageComponent
             url={data?.image ? ImageSelector(data?.image) : null}
-            defaultImage={null}
             widthMultiplier={1}
             heightMultiplier={0.32}
             borderRadius={0}
