@@ -50,15 +50,7 @@ const ImageComponent: React.FC<ImageProps> = ({
   }
 
   if (isError) {
-    return (
-      <View style={{width: imageWidth, height: imageHeight}}>
-        <View
-          style={{borderRadius: borderRadius}}
-          className="items-center h-full justify-center bg-neutral-800 ">
-          <Disk />
-        </View>
-      </View>
-    );
+    console.log('error occured');
   }
 
   return (
@@ -75,13 +67,15 @@ const ImageComponent: React.FC<ImageProps> = ({
           <Image
             source={{uri: url}}
             onError={handleError}
+            // defaultSource={require('../assets/disk.png')}
             borderRadius={borderRadius}
+            loadingIndicatorSource={require('../assets/disk.png')}
             className="w-full h-full"
           />
         ) : (
           <View
             style={{borderRadius: borderRadius}}
-            className="items-center h-full justify-center bg-neutral-800 ">
+            className="items-center h-full  justify-center bg-neutral-800 ">
             <Disk />
           </View>
         )}

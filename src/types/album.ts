@@ -4,6 +4,7 @@ import {PrimaryArtistProps} from './Reusable';
 export interface AlbumTypes {
   id: string;
   name: string;
+  title?: string;
   year: string;
   type: string;
   language: string;

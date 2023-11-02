@@ -10,6 +10,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {ToastProvider} from 'react-native-toast-notifications';
 
 const queryClient = new QueryClient();
 
@@ -20,7 +21,9 @@ export default function Main() {
         <PaperProvider>
           <AppContextProvider>
             <GestureHandlerRootView style={{flex: 1}}>
-              <App />
+              <ToastProvider>
+                <App />
+              </ToastProvider>
             </GestureHandlerRootView>
           </AppContextProvider>
         </PaperProvider>

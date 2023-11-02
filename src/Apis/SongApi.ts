@@ -9,7 +9,7 @@ interface trendingProps {
   albums: AlbumTypes[];
 }
 
-interface HomedataProps {
+export interface HomedataProps {
   albums: AlbumTypes[];
   playlists: playlistTypes[];
   charts: playlistTypes[];
