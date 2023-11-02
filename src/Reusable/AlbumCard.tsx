@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {Text} from 'react-native';
 import ImageComponent from '../component/Image';
 import {ImageSelector} from '../utils/constants';
 import {AlbumTypes} from '../types/album';
