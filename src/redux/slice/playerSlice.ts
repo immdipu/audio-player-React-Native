@@ -1,36 +1,23 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {PayloadAction, createSlice} from '@reduxjs/toolkit';
+import {Track} from 'react-native-track-player';
 
 interface initialStateProps {
-  title: string | null;
-  username: string | null;
-  isUserAuthenticated: boolean;
-  token: string | null;
-  id: string | null;
-  profilePic: string | null;
+  currentTrack: Track | null;
 }
 
 const initialState: initialStateProps = {
-  fullName: null,
-  username: null,
-  isUserAuthenticated: false,
-  token: null,
-  id: null,
-  profilePic: null,
+  currentTrack: null,
 };
 
-export const authSlice = createSlice({
+export const PlayerSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    AddCurrentTrack: state => {
-      state.fullName = null;
-      state.id = null;
-      state.profilePic = null;
-      state.username = null;
-      state.isUserAuthenticated = false;
+    AddCurrentTrack: (state, action: PayloadAction<Track>) => {
+      state.currentTrack = action.payload;
     },
   },
 });
 
-export const {LoggedOut} = authSlice.actions;
-export default authSlice.reducer;
+export const {AddCurrentTrack} = PlayerSlice.actions;
+export default PlayerSlice.reducer;

@@ -1,17 +1,31 @@
-import {View, Text, Image} from 'react-native';
+import {Image} from 'react-native';
 import React, {useEffect} from 'react';
-import TrackPlayer from 'react-native-track-player';
+import {useAppSelector} from '../redux/hooks';
 
 const SongImage = () => {
-  const [isError, setError] = React.useState(false);
-  const [ImageLink, setImageLink] = React.useState(null);
+  const [ImageLink, setImageLink] = React.useState<string | null>(null);
+  const player = useAppSelector(state => state.player);
 
-  return (
-    <Image
-      className="w-full h-full "
-      defaultSource={require('../assets/disk.png')}
-    />
-  );
+  useEffect(() => {
+    if (player.currentTrack) {
+      if (player.currentTrack.artwork) {
+        setImageLink(player.currentTrack.artwork);
+      } else {
+        setImageLink(null);
+      }
+    }
+  }, [player.currentTrack]);
+
+  if (ImageLink) {
+    return <Image className="w-full h-full " source={{uri: ImageLink}} />;
+  } else {
+    return (
+      <Image
+        className="w-full h-full "
+        source={require('../assets/disk.png')}
+      />
+    );
+  }
 };
 
 export default SongImage;

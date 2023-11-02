@@ -6,7 +6,6 @@ import {
   Pressable,
   BackHandler,
   Animated,
-  Image,
 } from 'react-native';
 import React, {useEffect, useMemo, useRef} from 'react';
 import clsx from 'clsx';
@@ -16,6 +15,7 @@ import SliderComponent from './Slider';
 import PlayerControls from './PlayerControls';
 import {useAppContext} from '../context/AppContext';
 import SongImage from './SongImage';
+import SongTitle from './SongTitle';
 
 const NewPlayer = () => {
   const {width, height} = useWindowDimensions();
@@ -217,18 +217,7 @@ const NewPlayer = () => {
             marginHorizontal: TextContainerMaring,
           }}
           className={'  mb-4 '}>
-          <Animated.Text
-            style={{
-              fontSize: TextFont,
-            }}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-            className={clsx(
-              'text-white  font-medium tracking-tighter',
-              isExpanded ? 'mr-0 font-semibold mt-10' : 'mr-36',
-            )}>
-            Good For A Time
-          </Animated.Text>
+          <SongTitle TextFont={TextFont} />
           <Text
             numberOfLines={1}
             ellipsizeMode="tail"

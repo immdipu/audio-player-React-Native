@@ -6,13 +6,15 @@ import {setUpPlayer, AddTrack} from './service';
 import Modal from 'react-native-modal';
 import MinimizePlayer from './MinimizePlayer';
 import NewPlayer from './NewPlayer';
+import {useAppDispatch} from '../redux/hooks';
+import {AddCurrentTrack} from '../redux/slice/playerSlice';
 
 import FullScreenPlayer from './FullScreenPlayer';
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, {Event} from 'react-native-track-player';
 
 const tracks: Track[] = [
   {
-    title: ' "Tiptoe',
+    title: 'Tiptoe',
     url: 'https://aac.saavncdn.com/210/9d7ace10a2176a518e666c770cf687e6_160.mp4',
     artwork: 'http://c.saavncdn.com/210/Night-Visions-2013-500x500.jpg',
     artist: 'Imagine Dragons',
@@ -28,17 +30,18 @@ const tracks: Track[] = [
 const Player = () => {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const dispatch = useAppDispatch();
 
   async function SetuP() {
     let isSetup = await setUpPlayer();
     console.log('isSetup', isSetup);
     if (isSetup) {
       await AddTrack(tracks);
-      TrackPlayer.getActiveTrackIndex().then(index => {
-        TrackPlayer.getActiveTrack().then(track => {
-          console.log('index', index);
-          console.log('track', track);
-        });
+
+      TrackPlayer.getActiveTrack().then(track => {
+        if (track) {
+          dispatch(AddCurrentTrack(track));
+        }
       });
     }
     setIsPlayerReady(isSetup);
@@ -46,6 +49,15 @@ const Player = () => {
 
   useEffect(() => {
     SetuP();
+  }, []);
+
+  useEffect(() => {
+    TrackPlayer.addEventListener(Event.PlaybackActiveTrackChanged, data => {
+      console.log('playback-track-changed', data);
+      if (data.track) {
+        dispatch(AddCurrentTrack(data.track));
+      }
+    });
   }, []);
 
   if (!isPlayerReady) {
