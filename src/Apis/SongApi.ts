@@ -1,5 +1,4 @@
 import Instance from '../axios/Instance';
-import axios from '../axios/Instance';
 import {AlbumTypes} from '../types/album';
 import {playlistTypes} from '../types/playlist';
 import {songTypes} from '../types/song';
@@ -33,6 +32,14 @@ export const SongApi = {
   getAlbumDetails: async (id: string): Promise<AlbumTypes> => {
     try {
       const response = await Instance.get(`albums?id=${id}`);
+      return response.data.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  getPlaylistDetails: async (id: string): Promise<AlbumTypes> => {
+    try {
+      const response = await Instance.get(`playlists?id=${id}`);
       return response.data.data;
     } catch (error) {
       throw error;
