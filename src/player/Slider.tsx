@@ -1,30 +1,33 @@
 import {Text, View} from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo, useCallback} from 'react';
 import TrackPlayer, {useProgress} from 'react-native-track-player';
 import {Slider} from '@miblanchard/react-native-slider';
 import {useAppContext} from '../context/AppContext';
 import clsx from 'clsx';
+import {useAppSelector} from '../redux/hooks';
+import {AudioDurationConverter} from '../utils/constants';
 
-const SiderComponent = () => {
+const SiderComponent = React.memo(() => {
   const {position, buffered} = useProgress();
   const [sliderValue, setSliderValue] = useState(position);
   const {isExpanded} = useAppContext();
+  const currentPlayer = useAppSelector(state => state?.player?.currentTrack);
 
-  useEffect(() => {
-    setSliderValue(position);
-  }, [position]);
+  // useEffect(() => {
+  //   setSliderValue(Math.floor(position));
+  // }, [position]);
 
-  const handleSliderRelease = async (value: number) => {
+  const handleSliderRelease = useCallback(async (value: number) => {
     await TrackPlayer.seekTo(value);
-  };
+  }, []);
 
   return (
     <View className={clsx('mt-5 mx-10', isExpanded ? 'mx-10' : 'mx-0 mt-0')}>
       {!isExpanded && (
         <View className="absolute -top-[10px] left-0 right-0 z-10">
           <Slider
-            value={sliderValue}
-            maximumValue={100}
+            value={Math.floor(position)}
+            maximumValue={currentPlayer?.duration || 100}
             minimumValue={0}
             thumbTintColor="white"
             maximumTrackTintColor="grey"
@@ -49,15 +52,17 @@ const SiderComponent = () => {
             {new Date(position * 1000).toISOString().substring(15, 19)}
           </Text>
           <Text className="text-neutral-300 font-medium font-serif text-base">
-            00:00
+            {currentPlayer?.duration
+              ? AudioDurationConverter(currentPlayer?.duration)
+              : '00:00'}
           </Text>
         </View>
       )}
 
       {isExpanded && (
         <Slider
-          value={sliderValue}
-          maximumValue={100}
+          value={Math.floor(position)}
+          maximumValue={currentPlayer?.duration || 100}
           minimumValue={0}
           thumbTintColor="white"
           maximumTrackTintColor={'transparent'}
@@ -92,6 +97,6 @@ const SiderComponent = () => {
       )}
     </View>
   );
-};
+});
 
 export default SiderComponent;
