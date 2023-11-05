@@ -2,6 +2,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {Home, Artist, Album, Playlist, MyMusic} from '../screens';
 import TabNavigation from './TabNavigation';
+import Player from '../player/Player';
 
 const Stack = createStackNavigator();
 
