@@ -1,39 +1,85 @@
-import React, {useCallback, useMemo, useRef} from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
-import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {
+  useCallback,
+  useMemo,
+  useRef,
+  useEffect,
+  useLayoutEffect,
+} from 'react';
+import {View, StyleSheet} from 'react-native';
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+  BottomSheetFlatList,
+} from '@gorhom/bottom-sheet';
+import {useAppContext} from '../context/AppContext';
+import TrackPlayer from 'react-native-track-player';
+import QueueSongCard from '../Reusable/Song/QueueSongCard';
+import {songQueueTypes} from '../types/song';
+import {useAppSelector} from '../redux/hooks';
 
 const App = () => {
   // ref
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const {isExpanded} = useAppContext();
+  const [data, setData] = React.useState<songQueueTypes[] | null>(null);
+  const player = useAppSelector(state => state?.player);
+
+  useLayoutEffect(() => {
+    if (bottomSheetModalRef.current) {
+      if (isExpanded) {
+        bottomSheetModalRef.current?.present();
+      } else {
+        bottomSheetModalRef.current?.dismiss();
+      }
+    }
+  }, [isExpanded]);
 
   // variables
-  const snapPoints = useMemo(() => ['25%', '50%'], []);
+  const snapPoints = useMemo(() => ['20%', '65%'], []);
 
-  // callbacks
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
+  const getQueue = useCallback(async () => {
+    const queue: unknown = await TrackPlayer.getQueue();
+    setData(queue as songQueueTypes[]);
   }, []);
 
-  // renders
+  useEffect(() => {
+    if (player.isPlayerReady) {
+      getQueue();
+    }
+  }, [player?.currentTrack, player.isPlayerReady]);
+
+  const PlaySong = useCallback(async (songIndex: number) => {
+    await TrackPlayer.skip(songIndex);
+    await TrackPlayer.play();
+  }, []);
+
   return (
     <BottomSheetModalProvider>
-      <View style={styles.container}>
-        <Button
-          onPress={handlePresentModalPress}
-          title="Present Modal"
-          color="black"
-        />
+      <View style={styles.container} className="mt-10 sticky bottom-0 ">
         <BottomSheetModal
+          enablePanDownToClose={false}
           ref={bottomSheetModalRef}
-          index={1}
-          snapPoints={snapPoints}
-          onChange={handleSheetChanges}>
-          <View style={styles.contentContainer}>
-            <Text>Awesome 🎉</Text>
-          </View>
+          index={0}
+          backgroundStyle={{backgroundColor: 'rgba(52, 52, 52, 0.92)'}}
+          handleIndicatorStyle={{backgroundColor: '#fff'}}
+          snapPoints={snapPoints}>
+          {/* <View style={styles.contentContainer}>
+            <FlatList
+              className=""
+              data={data}
+              renderItem={({item, index}) => (
+                <QueueSongCard {...item} index={index} handlePlay={PlaySong} />
+              )}
+            />
+          </View> */}
+          <BottomSheetFlatList
+            data={data}
+            renderItem={({item, index}) => (
+              <QueueSongCard {...item} index={index} handlePlay={PlaySong} />
+            )}
+          />
         </BottomSheetModal>
       </View>
     </BottomSheetModalProvider>
@@ -45,11 +91,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
     justifyContent: 'center',
-    backgroundColor: 'grey',
+    backgroundColor: 'transparent',
   },
   contentContainer: {
     flex: 1,
     alignItems: 'center',
+    backgroundColor: 'transparent',
   },
 });
 

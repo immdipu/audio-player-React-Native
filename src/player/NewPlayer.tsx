@@ -83,31 +83,31 @@ const NewPlayer = () => {
     [isExpanded],
   );
 
-  useEffect(() => {
-    const backHandlerSubscription = () => {
-      console.log('backhandler');
-      if (isExpanded) {
-        setIsExpanded(false);
-        Animated.timing(animation, {
-          toValue: 0,
-          duration: 400,
-          useNativeDriver: false,
-        }).start();
+  // useEffect(() => {
+  //   const backHandlerSubscription = () => {
+  //     console.log('backhandler');
+  //     if (isExpanded) {
+  //       setIsExpanded(false);
+  //       Animated.timing(animation, {
+  //         toValue: 0,
+  //         duration: 400,
+  //         useNativeDriver: false,
+  //       }).start();
 
-        return true;
-      }
-      return false;
-    };
+  //       return true;
+  //     }
+  //     return false;
+  //   };
 
-    const backaction = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backHandlerSubscription,
-    );
+  //   const backaction = BackHandler.addEventListener(
+  //     'hardwareBackPress',
+  //     backHandlerSubscription,
+  //   );
 
-    return () => {
-      return backaction.remove();
-    };
-  }, []);
+  //   return () => {
+  //     return backaction.remove();
+  //   };
+  // }, []);
 
   let animatedImageHeight = animation.interpolate({
     inputRange: [60, height],
@@ -277,9 +277,6 @@ const NewPlayer = () => {
         className="   ">
         <PlayerControls />
       </Animated.View>
-      {/* <Animated.View className="  bg-neutral-600 h-full mt-10  w-full">
-     
-      </Animated.View> */}
       <PlayerQueue />
     </Animated.View>
   );

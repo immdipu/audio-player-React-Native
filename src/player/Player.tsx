@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {useState, useEffect} from 'react';
 import {SafeAreaView, ActivityIndicator} from 'react-native';
@@ -6,11 +7,10 @@ import {setUpPlayer, AddTrack} from './service';
 import Modal from 'react-native-modal';
 import MinimizePlayer from './MinimizePlayer';
 import NewPlayer from './NewPlayer';
-import {useAppDispatch} from '../redux/hooks';
+import {useAppDispatch, useAppSelector} from '../redux/hooks';
 import {AddCurrentTrack} from '../redux/slice/playerSlice';
-
-import FullScreenPlayer from './FullScreenPlayer';
 import TrackPlayer, {Event} from 'react-native-track-player';
+import {ReadyPlayer} from '../redux/slice/playerSlice';
 
 const tracks: Track[] = [
   {
@@ -28,8 +28,8 @@ const tracks: Track[] = [
 ];
 
 const Player = () => {
-  const [isPlayerReady, setIsPlayerReady] = useState(false);
   const dispatch = useAppDispatch();
+  const isPlayerReady = useAppSelector(state => state.player.isPlayerReady);
 
   async function SetuP() {
     let isSetup = await setUpPlayer();
@@ -43,7 +43,7 @@ const Player = () => {
         }
       });
     }
-    setIsPlayerReady(isSetup);
+    dispatch(ReadyPlayer(isSetup));
   }
 
   useEffect(() => {

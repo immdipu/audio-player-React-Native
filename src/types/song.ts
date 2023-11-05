@@ -28,3 +28,12 @@ export interface songTypes {
   image: imageProps[];
   downloadUrl: downloadUrlProps[];
 }
+
+export interface songQueueTypes {
+  artist: string;
+  duration: string;
+  id?: string;
+  url: string;
+  title: string;
+  artwork: string;
+}

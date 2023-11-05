@@ -3,10 +3,12 @@ import {Track} from 'react-native-track-player';
 
 interface initialStateProps {
   currentTrack: Track | null;
+  isPlayerReady: boolean;
 }
 
 const initialState: initialStateProps = {
   currentTrack: null,
+  isPlayerReady: false,
 };
 
 export const PlayerSlice = createSlice({
@@ -16,8 +18,11 @@ export const PlayerSlice = createSlice({
     AddCurrentTrack: (state, action: PayloadAction<Track>) => {
       state.currentTrack = action.payload;
     },
+    ReadyPlayer: (state, action: PayloadAction<boolean>) => {
+      state.isPlayerReady = action.payload;
+    },
   },
 });
 
-export const {AddCurrentTrack} = PlayerSlice.actions;
+export const {AddCurrentTrack, ReadyPlayer} = PlayerSlice.actions;
 export default PlayerSlice.reducer;
