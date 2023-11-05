@@ -4,15 +4,18 @@ import {getPermission} from '../utils/Permisson';
 import {getAllAudios} from '../utils/FileExplorer';
 
 interface IAppContext {
-  audios: any[];
+  audios?: any[];
   isExpanded: boolean;
   setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AppContext = createContext<IAppContext | null>(null);
+const AppContext = createContext<IAppContext>({
+  isExpanded: false,
+  setIsExpanded: () => {},
+});
 
 export const AppContextProvider = ({children}: {children: React.ReactNode}) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
   useEffect(() => {
     const isPermitted = async () => {
@@ -28,7 +31,7 @@ export const AppContextProvider = ({children}: {children: React.ReactNode}) => {
   });
 
   return (
-    <AppContext.Provider value={{audios: [], isExpanded, setIsExpanded}}>
+    <AppContext.Provider value={{isExpanded, setIsExpanded}}>
       {children}
     </AppContext.Provider>
   );

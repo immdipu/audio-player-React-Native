@@ -29,7 +29,6 @@ const tracks: Track[] = [
 
 const Player = () => {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
-  const [isFullScreen, setIsFullScreen] = useState(false);
   const dispatch = useAppDispatch();
 
   async function SetuP() {

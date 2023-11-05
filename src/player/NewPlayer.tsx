@@ -16,6 +16,7 @@ import PlayerControls from './PlayerControls';
 import {useAppContext} from '../context/AppContext';
 import SongImage from './SongImage';
 import SongTitle from './SongTitle';
+import PlayerQueue from './PlayerQueue';
 
 const NewPlayer = () => {
   const {width, height} = useWindowDimensions();
@@ -276,6 +277,10 @@ const NewPlayer = () => {
         className="   ">
         <PlayerControls />
       </Animated.View>
+      {/* <Animated.View className="  bg-neutral-600 h-full mt-10  w-full">
+     
+      </Animated.View> */}
+      <PlayerQueue />
     </Animated.View>
   );
 };
