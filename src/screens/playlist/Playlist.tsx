@@ -26,7 +26,6 @@ const Playlist = ({route}: {route: any}) => {
 
   useEffect(() => {
     if (data?.songs) {
-      console.log('converted');
       const songs = ConvertAudioMetaData(data?.songs);
       setConvertedAudios(songs);
     }

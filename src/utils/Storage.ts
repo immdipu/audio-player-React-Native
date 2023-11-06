@@ -45,12 +45,15 @@ export const RecentSongAdd = async (value: IRecentSong) => {
       if (alreadyExist) {
         let newdata = data.filter((item: any) => item.id !== value.id);
         newdata.unshift(value);
+        await storeObject('RecentSong', newdata);
       } else {
         if (data.length > 100) {
           data.pop();
           data.unshift(value);
+          await storeObject('RecentSong', data);
         } else {
           data.unshift(value);
+          await storeObject('RecentSong', data);
         }
       }
     } else {

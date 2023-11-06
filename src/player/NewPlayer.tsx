@@ -4,10 +4,9 @@ import {
   useWindowDimensions,
   PanResponder,
   Pressable,
-  BackHandler,
   Animated,
 } from 'react-native';
-import React, {useEffect, useMemo, useRef} from 'react';
+import React, {useMemo, useRef} from 'react';
 import clsx from 'clsx';
 import ArrowDown from '../icons/ArrowDown';
 import DowMenu from '../icons/DotMenu';
@@ -17,6 +16,7 @@ import {useAppContext} from '../context/AppContext';
 import SongImage from './SongImage';
 import SongTitle from './SongTitle';
 import PlayerQueue from './PlayerQueue';
+import ArtistName from './ArtistName';
 
 const NewPlayer = () => {
   const {width, height} = useWindowDimensions();
@@ -40,22 +40,18 @@ const NewPlayer = () => {
           animation.extractOffset();
         },
         onPanResponderMove: (event, gestureState) => {
-          // animation.setValue({x: 0, y: gestureState.dy});
           let values = height - (gestureState.moveY + 140);
-          console.log('values', values);
           // animation.setValue(values);
         },
         onPanResponderRelease: (event, gestureState) => {
           if (gestureState.dy > 0 && gestureState.moveY >= height / 2) {
-            console.log('force scrolling down');
-            console.log('scrolling down', animation);
             Animated.timing(animation, {
               toValue: 0,
               duration: 120,
               useNativeDriver: false,
             }).start();
           } else if (gestureState.dy > 0 && gestureState.moveY < height / 2) {
-            console.log(' scrolling down');
+            //  scrolling down
             setIsExpanded(false);
             Animated.timing(animation, {
               toValue: -height,
@@ -63,7 +59,7 @@ const NewPlayer = () => {
               useNativeDriver: false,
             }).start();
           } else if (gestureState.dy < 0 && gestureState.moveY >= height / 2) {
-            console.log('scrolling up');
+            // scrolling up
             setIsExpanded(true);
             Animated.timing(animation, {
               toValue: height,
@@ -71,7 +67,7 @@ const NewPlayer = () => {
               useNativeDriver: false,
             }).start();
           } else if (gestureState.dy < 0 && gestureState.moveY < height - 120) {
-            console.log('force scrolling up');
+            // force scrolling up
             Animated.spring(animation, {
               toValue: 0,
               tension: 10,
@@ -245,17 +241,7 @@ const NewPlayer = () => {
           }}
           className={' mb-1 '}>
           <SongTitle TextFont={TextFont} />
-          <Text
-            numberOfLines={1}
-            ellipsizeMode="tail"
-            className={clsx(
-              '  tracking-wide ',
-              isExpanded
-                ? 'font-normal text-neutral-200 text-base text-center'
-                : 'text-xs text-start text-neutral-400',
-            )}>
-            Benjamin Kheng
-          </Text>
+          <ArtistName isExpanded={isExpanded} />
         </Animated.View>
       </Animated.View>
 

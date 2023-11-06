@@ -4,7 +4,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Bars3CenterLeftIcon} from 'react-native-heroicons/outline';
 import {TouchableRipple} from 'react-native-paper';
 import StaticSearch from './StaticSearch';
-import {SongCardSquare} from './../../Reusable/SongCardSquare';
 import {useQuery} from '@tanstack/react-query';
 import {AlbumSquare} from '../../Reusable/AlbumCard';
 import {SongApi} from '../../Apis/SongApi';

@@ -21,7 +21,6 @@ export const AlbumSquare: React.FC<AlbumSquareProps> = ({
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const handleNavigation = () => {
-    console.log('album button pressed');
     if (!isPlaylist) {
       navigation.navigate('Album', {id: id});
     } else {

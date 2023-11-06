@@ -23,7 +23,6 @@ export const AppContextProvider = ({children}: {children: React.ReactNode}) => {
       return permission as string;
     };
     isPermitted().then(res => {
-      console.log(res);
       if (res === 'granted') {
         const mainDirectory = RNFS.ExternalStorageDirectoryPath;
       }
