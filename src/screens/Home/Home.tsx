@@ -126,6 +126,7 @@ const Home = () => {
                   )}
                 />
               </View>
+              <View className="w-full h-16" />
             </View>
           )}
         </ScrollView>

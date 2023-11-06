@@ -1,8 +1,8 @@
 import {Image} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useAppSelector} from '../redux/hooks';
 
-const SongImage = () => {
+const SongImage = memo(() => {
   const [ImageLink, setImageLink] = React.useState<string | null>(null);
   const player = useAppSelector(state => state.player);
 
@@ -26,6 +26,6 @@ const SongImage = () => {
       />
     );
   }
-};
+});
 
 export default SongImage;
