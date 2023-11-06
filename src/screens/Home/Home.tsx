@@ -11,6 +11,7 @@ import {SongApi} from '../../Apis/SongApi';
 import {getObject, storeObject} from '../../utils/Storage';
 import {HomedataProps} from '../../Apis/SongApi';
 import {useToast} from 'react-native-toast-notifications';
+import RecentSongs from '../../component/RecentSongs/RecentSongs';
 const Home = () => {
   const [Homedata, setHomedata] = useState<HomedataProps | null>(null);
   const toast = useToast();
@@ -38,6 +39,7 @@ const Home = () => {
   if (isSuccess) {
     storeObject('HomeData', data);
   }
+
   return (
     <View className="bg-neutral-900 flex-1 ">
       <StatusBar backgroundColor={'rgb(23 23 23 )'} />
@@ -62,23 +64,7 @@ const Home = () => {
           </View>
           <StaticSearch />
           <View className=" mt-8">
-            <Text className="text-neutral-200 px-5 font-medium text-lg ">
-              Recent Played Song
-            </Text>
-            <ScrollView
-              horizontal={true}
-              contentContainerStyle={{paddingHorizontal: 13}}
-              showsHorizontalScrollIndicator={false}
-              className="  mt-3">
-              <SongCardSquare />
-              <SongCardSquare />
-              <SongCardSquare />
-              <SongCardSquare />
-              <SongCardSquare />
-              <SongCardSquare />
-              <SongCardSquare />
-              <SongCardSquare />
-            </ScrollView>
+            <RecentSongs />
           </View>
 
           {/* Trending albums */}

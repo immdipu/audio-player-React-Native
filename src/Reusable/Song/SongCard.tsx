@@ -4,6 +4,9 @@ import {songTypes} from '../../types/song';
 import ImageComponent from '../../component/Image';
 import {ImageSelector} from '../../utils/constants';
 import HTML from 'react-native-render-html';
+import {IRecentSong} from '../../types/storageTypes';
+import {useAppDispatch} from '../../redux/hooks';
+import {AddRecentSong} from '../../redux/slice/playerSlice';
 
 interface SongCardProps extends songTypes {
   Index?: number;
@@ -14,12 +17,24 @@ const SongCard: React.FC<SongCardProps> = ({
   name,
   image,
   primaryArtists,
+  duration,
+  downloadUrl,
   handlePlay,
 }) => {
   const {width} = useWindowDimensions();
+  const dispatch = useAppDispatch();
 
   const handlePress = () => {
     handlePlay(id);
+    let song: IRecentSong = {
+      id: id,
+      title: name,
+      artist: primaryArtists,
+      artwork: image[image.length - 1].link,
+      duration: duration,
+      url: downloadUrl[downloadUrl.length - 1].link,
+    };
+    dispatch(AddRecentSong(song));
   };
 
   return (
