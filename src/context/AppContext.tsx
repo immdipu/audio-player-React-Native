@@ -20,13 +20,22 @@ export const AppContextProvider = ({children}: {children: React.ReactNode}) => {
   useEffect(() => {
     const isPermitted = async () => {
       const permission = await getPermission();
-      return permission as string;
-    };
-    isPermitted().then(res => {
-      if (res === 'granted') {
+      if (permission === 'granted') {
         const mainDirectory = RNFS.ExternalStorageDirectoryPath;
+        const audios = await getAllAudios(mainDirectory);
       }
-    });
+      // return permission as string;
+    };
+
+    isPermitted();
+
+    // isPermitted().then(res => {
+    //   if (res === 'granted') {
+    //     const mainDirectory = RNFS.ExternalStorageDirectoryPath;
+    //     const audios = getAllAudios(mainDirectory);
+    //     console.log(audios);
+    //   }
+    // });
   });
 
   return (
